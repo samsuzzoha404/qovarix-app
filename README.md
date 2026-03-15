@@ -1,15 +1,15 @@
 <div align="center">
 
-# 🎲 Qovarix
+<img src="public/Logo White.png" alt="Qovarix Logo" width="300"/>
 
-### _Decentralized Binary Options Trading on Qubic Blockchain_
+### _Decentralized Binary Options Trading on Surge Blockchain_
 
 [![Live Demo](https://img.shields.io/badge/demo-live-green)](https://qovarix.app/)
-[![Built with Qubic](https://img.shields.io/badge/blockchain-Qubic-blue)](https://qubic.org/)
+[![Built with Surge](https://img.shields.io/badge/blockchain-Surge-blue)](https://qubic.org/)
 [![Smart Contract](https://img.shields.io/badge/smart%20contract-repo-orange)](https://github.com/arafateasin/Qovarix)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-**A revolutionary decentralized trading platform enabling binary options trading on tick-based price movements with transparent, on-chain execution powered by Qubic blockchain.**
+**A revolutionary decentralized trading platform enabling binary options trading on tick-based price movements with transparent, on-chain execution powered by Surge blockchain.**
 
 [🚀 Live Demo](https://qovarix.app/) • [📜 Smart Contract](https://github.com/arafateasin/Qovarix) • [📖 Documentation](#-documentation) • [🤝 Contributing](#-contributing)
 
@@ -51,7 +51,7 @@
 ### 💹 Trading Features
 
 - **🎯 Binary Options Trading** - Place UP or DOWN bets on tick movements
-- **⚡ Real-Time Price Feeds** - Live tick data from Qubic RPC
+- **⚡ Real-Time Price Feeds** - Live tick data from Surge RPC
 - **💰 Transparent Payouts** - 2% house fee with instant settlement
 - **📊 Round-Based Trading** - 30-tick rounds (30 seconds) with countdown
 - **📈 Historical Data** - Complete betting and rounds history
@@ -62,7 +62,7 @@
 
 ### 🎨 User Experience
 
-- **🔐 Wallet Integration** - Secure Qubic wallet connection
+- **🔐 Wallet Integration** - Secure Surge wallet connection
 - **💎 Modern UI** - Beautiful glass-morphism design
 - **🌓 Theme Support** - Dark and light mode
 - **📱 Responsive Design** - Optimized for all devices
@@ -96,7 +96,7 @@
 
 ### ⛓️ Blockchain
 
-- **Qubic** - Layer 1 Blockchain
+- **Surge** - Layer 1 Blockchain
 - **@qubic-lib/qubic-ts-library** - TypeScript SDK
 - **Custom Smart Contract** - Qovarix SC
 
@@ -194,12 +194,12 @@ tick-deriv/
 │   ├── hooks/                  # Custom Hooks
 │   │   ├── useCurrentPrice.ts  # Price feed hook
 │   │   ├── usePlaceBet.ts      # Betting logic
-│   │   ├── useQubicBalance.ts  # Balance tracking
+│   │   ├── useSurgeBalance.ts  # Balance tracking
 │   │   └── ...
 │   │
 │   ├── lib/                    # Utilities & Libraries
 │   │   ├── utils.ts            # Helper functions
-│   │   └── qubic/              # Qubic Integration
+│   │   └── surge/              # Surge Integration
 │   │       ├── connector.ts    # Wallet connector
 │   │       └── contract.ts     # Smart contract interface
 │   │
@@ -227,14 +227,14 @@ tick-deriv/
 ### Step 1️⃣: Connect Your Wallet
 
 1. Click the **"Connect Wallet"** button in the header
-2. Enter your Qubic wallet seed
+2. Enter your Surge wallet seed
 3. Or use **Demo Mode** for testing (no real funds)
 
 ### Step 2️⃣: Place a Bet
 
 1. Navigate to the **"Place Bet"** page
 2. Choose **UP ⬆️** or **DOWN ⬇️** direction
-3. Enter bet amount (min: 1, max: 10,000 QUBIC)
+3. Enter bet amount (min: 1, max: 10,000 SURGE)
 4. Review payout calculation (98% return on win)
 5. Click **"Place Bet"** to submit
 
@@ -252,7 +252,7 @@ tick-deriv/
 Key configuration can be found in [`src/config/constants.ts`](src/config/constants.ts):
 
 ```typescript
-export const QUBIC_CONFIG = {
+export const SURGE_CONFIG = {
   network: "mainnet", // Network type
   rpcUrl: "https://rpc.qubic.org",
   tickDuration: 1000, // 1 second per tick
@@ -281,7 +281,7 @@ The platform is currently running in **simulation mode** for safe testing:
 
 Once the smart contract is fully deployed:
 
-- Real QUBIC transactions
+- Real SURGE transactions
 - Live on-chain execution
 - Actual payouts and settlements
 - Production-grade security
@@ -298,7 +298,7 @@ This project was built with passion and dedication by a talented team:
 <h3>🔧 Backend & Smart Contract</h3>
 <p><strong>Arafat Easin</strong></p>
 <p>
-• Smart Contract Development (Qubic)<br>
+• Smart Contract Development (Surge)<br>
 • Backend Architecture<br>
 • Blockchain Integration<br>
 • Contract Security & Testing
@@ -326,7 +326,7 @@ This project was built with passion and dedication by a talented team:
 
 ### 🙌 Special Thanks
 
-- **[Qubic](https://qubic.org/)** - For providing the blockchain infrastructure
+- **[Surge](https://qubic.org/)** - For providing the blockchain infrastructure
 - **[shadcn/ui](https://ui.shadcn.com/)** - For the beautiful component library
 - **[Vercel](https://vercel.com/)** - For seamless hosting and deployment
 
@@ -411,7 +411,7 @@ We'd love to hear from you! Whether you have questions, feedback, or want to col
 
 ### 🌟 If you found this project helpful, please consider giving it a star! ⭐
 
-**Built with ❤️ on Qubic Blockchain**
+**Built with ❤️ on Surge Blockchain**
 
 _Empowering decentralized trading, one tick at a time._
 
