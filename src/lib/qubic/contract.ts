@@ -446,9 +446,9 @@ export async function getUserBets(address: string): Promise<Bet[]> {
       saveBets();
     }
     
-    return updatedBets;
+    return [...updatedBets].sort((a, b) => b.timestamp - a.timestamp);
   }
-  
+
   return [];
 }
 

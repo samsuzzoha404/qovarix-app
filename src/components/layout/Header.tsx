@@ -39,7 +39,7 @@ export function Header() {
         {/* Logo */}
         <Link to="/" className="flex items-center hover:opacity-90 transition-opacity">
           <img
-            src="/Logo White.png"
+            src={theme === 'dark' ? '/Logo White.png' : '/Logo black.png'}
             alt="Qovarix"
             className="h-12 w-auto object-contain"
           />

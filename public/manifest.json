@@ -1,0 +1,17 @@
+{
+  "name": "Qovarix - Binary Options Trading",
+  "short_name": "Qovarix",
+  "description": "Decentralized binary options trading on the Surge blockchain",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#7c3aed",
+  "icons": [
+    {
+      "src": "/Qovarix icon big.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

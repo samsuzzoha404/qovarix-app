@@ -1,6 +1,9 @@
 import { ExternalLink } from 'lucide-react';
+import { useTheme } from '@/contexts/ThemeContext';
 
 export function Footer() {
+  const { theme } = useTheme();
+
   return (
     <footer className="border-t border-border/60 bg-card/30 backdrop-blur-xl">
       <div className="container py-12 max-w-7xl mx-auto">
@@ -8,7 +11,7 @@ export function Footer() {
           {/* Logo */}
           <div className="flex items-center">
             <img
-              src="/Logo White.png"
+              src={theme === 'dark' ? '/Logo White.png' : '/Logo black.png'}
               alt="Qovarix"
               className="h-10 w-auto object-contain"
             />
