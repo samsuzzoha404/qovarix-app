@@ -4,7 +4,7 @@ import { qubicConnector } from './connector';
 
 // Simulation state for demo purposes (when Qovarix SC is not deployed)
 let simulatedRoundId = 1000;
-let simulatedPrice = 0.000025; // Simulated QU price in USD
+let simulatedPrice = 0.000025; // Simulated QVX price in USD
 let priceHistory: number[] = [simulatedPrice];
 let priceVelocity = 0; // Smooth price changes
 const PRICE_STORAGE_KEY = 'qubic_demo_price';

@@ -71,10 +71,10 @@ export default function RoundsHistory() {
                             <ResultBadge direction={round.result} size="sm" />
                           </td>
                           <td className="p-4 text-right font-mono">
-                            {formatNumber(round.totalPool)} QU
+                            {formatNumber(round.totalPool)} QVX
                           </td>
                           <td className="p-4 text-right font-mono">
-                            {formatNumber(winnersPool)} QU
+                            {formatNumber(winnersPool)} QVX
                           </td>
                           <td className="p-4 text-right text-sm text-muted-foreground">
                             {formatTimestamp(round.startTick * 1000)}

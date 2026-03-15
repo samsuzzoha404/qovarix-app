@@ -1,4 +1,4 @@
-import { Target, ExternalLink } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 
 export function Footer() {
   return (
@@ -6,13 +6,12 @@ export function Footer() {
       <div className="container py-12 max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Logo */}
-          <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center shadow-lg">
-              <Target className="h-5 w-5 text-primary-foreground" />
-            </div>
-            <span className="font-bold text-lg">
-              Qova<span className="text-primary">rix</span>
-            </span>
+          <div className="flex items-center">
+            <img
+              src="/Logo White.png"
+              alt="Qovarix"
+              className="h-10 w-auto object-contain"
+            />
           </div>
 
           {/* Links */}
@@ -21,7 +20,7 @@ export function Footer() {
               Documentation
             </a>
             <a href="#" className="hover:text-primary transition-all duration-300 hover:scale-105 flex items-center gap-1.5">
-              Qubic
+              Surge
               <ExternalLink className="h-4 w-4" />
             </a>
             <a href="#" className="hover:text-primary transition-all duration-300 hover:scale-105">
@@ -32,12 +31,12 @@ export function Footer() {
           {/* Network badge */}
           <div className="flex items-center gap-2.5 px-4 py-2 rounded-lg bg-muted/60 border border-border/50">
             <div className="h-2.5 w-2.5 rounded-full bg-up animate-pulse shadow-lg shadow-up/50" />
-            <span className="text-sm font-medium text-foreground">Qubic Testnet</span>
+            <span className="text-sm font-medium text-foreground">Surge Testnet</span>
           </div>
         </div>
 
         <div className="mt-8 pt-8 border-t border-border/60 text-center text-sm text-muted-foreground">
-          © {new Date().getFullYear()} Qovarix. Decentralized trading platform on Qubic.
+          © {new Date().getFullYear()} Qovarix. Decentralized trading platform on Surge.
         </div>
       </div>
     </footer>

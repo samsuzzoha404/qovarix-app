@@ -37,7 +37,7 @@ export function ResetDemoButton() {
           <AlertDialogTitle>Reset Demo Data?</AlertDialogTitle>
           <AlertDialogDescription>
             This will clear your demo wallet balance, bet history, and all simulated data. 
-            You'll get a fresh start with 10,000 QU. This action cannot be undone.
+            You'll get a fresh start with 10,000 QVX. This action cannot be undone.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

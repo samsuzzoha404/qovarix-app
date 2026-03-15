@@ -28,7 +28,7 @@ export default function Dashboard() {
             <span className="text-gradient">High-Frequency</span> Trading Platform
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-10 leading-relaxed">
-            Predict price movements on the Qubic blockchain with precision. Fast rounds, instant settlements, transparent outcomes.
+            Predict price movements on the Surge blockchain with precision. Fast rounds, instant settlements, transparent outcomes.
           </p>
 
           {!connected && (

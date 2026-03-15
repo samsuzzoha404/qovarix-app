@@ -90,7 +90,7 @@ export default function SettingsPage() {
                 <div className="flex items-center gap-3">
                   <div className="h-3 w-3 rounded-full bg-up animate-pulse" />
                   <div>
-                    <div className="font-medium">Qubic Testnet</div>
+                    <div className="font-medium">Surge Testnet</div>
                     <div className="text-sm text-muted-foreground">Connected</div>
                   </div>
                 </div>
@@ -100,7 +100,7 @@ export default function SettingsPage() {
               </div>
 
               <p className="text-sm text-muted-foreground">
-                Qovarix currently operates on Qubic Testnet. Mainnet support coming soon.
+                Qovarix currently operates on Surge Testnet. Mainnet support coming soon.
               </p>
             </div>
           </GlassCard>
@@ -169,7 +169,7 @@ export default function SettingsPage() {
                     Confirm Large Bets
                   </Label>
                   <p className="text-base text-muted-foreground mt-1">
-                    Require confirmation for bets over 500 QU
+                    Require confirmation for bets over 500 QVX
                   </p>
                 </div>
                 <Switch id="confirm-bets" defaultChecked />

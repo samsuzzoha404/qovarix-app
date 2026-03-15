@@ -40,7 +40,7 @@ export function RecentBets({ className, limit = 5 }: RecentBetsProps) {
                 <ResultBadge direction={bet.direction} size="sm" />
                 <div>
                   <div className="font-mono font-medium">
-                    {formatNumber(bet.amount)} QU
+                    {formatNumber(bet.amount)} QVX
                   </div>
                   <div className="text-xs text-muted-foreground">
                     Round #{bet.roundId}

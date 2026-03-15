@@ -12,7 +12,7 @@ export function formatNumber(num: number, decimals = 2): string {
   }).format(num);
 }
 
-export function formatCurrency(num: number, currency = 'QU'): string {
+export function formatCurrency(num: number, currency = 'QVX'): string {
   return `${formatNumber(num)} ${currency}`;
 }
 

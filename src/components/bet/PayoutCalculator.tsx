@@ -25,21 +25,21 @@ export function PayoutCalculator({ amount, direction, className }: PayoutCalcula
     <div className={cn("space-y-3 p-4 rounded-lg bg-muted/50", className)}>
       <div className="flex justify-between items-center">
         <span className="text-sm text-muted-foreground">Your Bet</span>
-        <span className="font-mono font-medium">{formatNumber(amount)} QU</span>
+        <span className="font-mono font-medium">{formatNumber(amount)} QVX</span>
       </div>
 
       <div className="flex justify-between items-center">
         <span className="text-sm text-muted-foreground">
           House Fee ({(QUBIC_CONFIG.houseFee * 100).toFixed(0)}%)
         </span>
-        <span className="font-mono text-muted-foreground">-{formatNumber(houseFee)} QU</span>
+        <span className="font-mono text-muted-foreground">-{formatNumber(houseFee)} QVX</span>
       </div>
 
       <div className="border-t border-border pt-3">
         <div className="flex justify-between items-center">
           <span className="text-sm text-muted-foreground">Expected Payout</span>
           <span className="font-mono font-bold text-lg text-primary">
-            {formatNumber(estimatedPayout)} QU
+            {formatNumber(estimatedPayout)} QVX
           </span>
         </div>
 
@@ -51,7 +51,7 @@ export function PayoutCalculator({ amount, direction, className }: PayoutCalcula
                 "font-mono font-medium",
                 netProfit > 0 ? "text-up" : "text-muted-foreground"
               )}>
-                +{formatNumber(netProfit)} QU
+                +{formatNumber(netProfit)} QVX
               </span>
             </div>
 

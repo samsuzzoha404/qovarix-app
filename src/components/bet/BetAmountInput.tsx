@@ -39,7 +39,7 @@ export function BetAmountInput({
           Bet Amount
         </label>
         <span className="text-sm text-muted-foreground">
-          Balance: <span className="text-foreground font-mono">{maxBalance.toFixed(2)} QU</span>
+          Balance: <span className="text-foreground font-mono">{maxBalance.toFixed(2)} QVX</span>
         </span>
       </div>
 
@@ -55,7 +55,7 @@ export function BetAmountInput({
           className="text-2xl font-mono h-14 pr-16"
         />
         <span className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground font-medium">
-          QU
+          QVX
         </span>
       </div>
 
@@ -93,7 +93,7 @@ export function BetAmountInput({
       </div>
 
       <div className="text-xs text-muted-foreground">
-        Min: {QUBIC_CONFIG.minBet} QU · Max: {QUBIC_CONFIG.maxBet.toLocaleString()} QU
+        Min: {QUBIC_CONFIG.minBet} QVX · Max: {QUBIC_CONFIG.maxBet.toLocaleString()} QVX
       </div>
     </div>
   );

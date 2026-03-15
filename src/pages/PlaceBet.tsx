@@ -140,7 +140,7 @@ export default function PlaceBet() {
                 ) : (
                   <>
                     Place Bet
-                    {direction && amount > 0 && ` • ${direction} • ${amount} QU`}
+                    {direction && amount > 0 && ` • ${direction} • ${amount} QVX`}
                   </>
                 )}
               </Button>

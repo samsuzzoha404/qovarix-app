@@ -92,7 +92,7 @@ export function WalletConnectButton({
         {showBalance && (
           <div className="text-right hidden sm:block">
             <div className="text-xs text-muted-foreground">Balance</div>
-            <div className="text-sm font-mono font-medium">{balance.toLocaleString()} QU</div>
+            <div className="text-sm font-mono font-medium">{balance.toLocaleString()} QVX</div>
           </div>
         )}
         <Button
@@ -139,9 +139,9 @@ export function WalletConnectButton({
         <DialogHeader>
           <DialogTitle>Connect Your Wallet</DialogTitle>
           <DialogDescription>
-            {QUBIC_CONFIG.simulationMode ? 
-              'Try the demo wallet or connect with your real Qubic wallet.' :
-              'Enter your Qubic seed phrase to connect your wallet.'
+            {QUBIC_CONFIG.simulationMode ?
+              'Try the demo wallet or connect with your real Surge wallet.' :
+              'Enter your Surge seed phrase to connect your wallet.'
             }
           </DialogDescription>
         </DialogHeader>
@@ -160,7 +160,7 @@ export function WalletConnectButton({
                 <div>
                   <h4 className="font-semibold text-sm">Demo Wallet</h4>
                   <p className="text-xs text-muted-foreground mt-1">
-                    Instant access with 10,000 QU. Perfect for trying out the platform.
+                    Instant access with 10,000 QVX. Perfect for trying out the platform.
                   </p>
                 </div>
               </div>

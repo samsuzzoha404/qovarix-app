@@ -26,7 +26,7 @@ export function RoundInfo({ className }: RoundInfoProps) {
         </h3>
         <div className="flex items-center gap-1 text-sm text-muted-foreground">
           <Users className="h-4 w-4" />
-          <span className="font-mono">{formatNumber(round.totalPool)} QU</span>
+          <span className="font-mono">{formatNumber(round.totalPool)} QVX</span>
         </div>
       </div>
 
@@ -50,7 +50,7 @@ export function RoundInfo({ className }: RoundInfoProps) {
               <TrendingUp className="h-4 w-4" />
               <span className="text-sm font-medium">UP Pool</span>
             </div>
-            <div className="font-mono font-bold">{formatNumber(round.upPool)} QU</div>
+            <div className="font-mono font-bold">{formatNumber(round.upPool)} QVX</div>
             <div className="text-xs text-muted-foreground">{upPercentage.toFixed(1)}%</div>
           </div>
 
@@ -59,7 +59,7 @@ export function RoundInfo({ className }: RoundInfoProps) {
               <TrendingDown className="h-4 w-4" />
               <span className="text-sm font-medium">DOWN Pool</span>
             </div>
-            <div className="font-mono font-bold">{formatNumber(round.downPool)} QU</div>
+            <div className="font-mono font-bold">{formatNumber(round.downPool)} QVX</div>
             <div className="text-xs text-muted-foreground">{downPercentage.toFixed(1)}%</div>
           </div>
         </div>

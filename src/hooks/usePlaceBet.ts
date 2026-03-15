@@ -17,7 +17,7 @@ export function usePlaceBet() {
       queryClient.invalidateQueries({ queryKey: ['currentRound'] });
       toast({
         title: 'Bet Placed!',
-        description: `Your ${data.bet.direction} bet of ${data.bet.amount} QU has been placed`,
+        description: `Your ${data.bet.direction} bet of ${data.bet.amount} QVX has been placed`,
       });
     },
     onError: (error) => {
@@ -48,7 +48,7 @@ export function useClaimWinnings() {
       
       toast({
         title: 'Winnings Claimed!',
-        description: `You received ${data.amount.toFixed(2)} QU`,
+        description: `You received ${data.amount.toFixed(2)} QVX`,
       });
     },
     onError: (error) => {

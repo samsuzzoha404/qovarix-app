@@ -37,13 +37,12 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/90 backdrop-blur-2xl shadow-sm">
       <div className="container flex h-20 items-center justify-between max-w-7xl mx-auto">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity">
-          <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-primary/70 flex items-center justify-center shadow-lg">
-            <Target className="h-6 w-6 text-primary-foreground" />
-          </div>
-          <span className="font-bold text-2xl tracking-tight">
-            Tick<span className="text-primary">Deriv</span>
-          </span>
+        <Link to="/" className="flex items-center hover:opacity-90 transition-opacity">
+          <img
+            src="/Logo White.png"
+            alt="Qovarix"
+            className="h-12 w-auto object-contain"
+          />
         </Link>
 
         {/* Desktop Navigation */}
@@ -86,7 +85,7 @@ export function Header() {
             <div className="flex items-center gap-3">
               <div className="hidden lg:block text-right px-4 py-2 rounded-lg bg-muted/50">
                 <div className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Balance</div>
-                <div className="text-base font-mono font-semibold text-foreground">{formatNumber(balance)} <span className="text-primary">QU</span></div>
+                <div className="text-base font-mono font-semibold text-foreground">{formatNumber(balance)} <span className="text-primary">QVX</span></div>
               </div>
               <Button
                 variant="outline"

@@ -31,7 +31,7 @@ export function PriceDisplay({ className, showChange = true, size = 'md' }: Pric
   return (
     <div className={cn("flex flex-col items-center gap-1", className)}>
       <div className="text-xs uppercase tracking-wider text-muted-foreground">
-        QU/USD Price
+        QVX/USD Price
       </div>
       <div className={cn("font-mono font-bold", sizeClasses[size])}>
         ${formatNumber(price.price)}

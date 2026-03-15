@@ -100,12 +100,12 @@ export default function WalletPage() {
               <div className="grid grid-cols-2 gap-6">
                 <div className="p-6 rounded-xl bg-muted/60 border border-border/50">
                   <div className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-2">Balance</div>
-                  <div className="text-3xl font-bold font-mono">{formatNumber(balance)} QU</div>
+                  <div className="text-3xl font-bold font-mono">{formatNumber(balance)} QVX</div>
                 </div>
                 <div className="p-4 rounded-lg bg-primary/10">
                   <div className="text-sm text-muted-foreground mb-1">Claimable Winnings</div>
                   <div className="text-3xl font-bold font-mono text-primary">
-                    {formatNumber(totalClaimable)} QU
+                    {formatNumber(totalClaimable)} QVX
                   </div>
                 </div>
               </div>
@@ -180,7 +180,7 @@ export default function WalletPage() {
                       </div>
 
                       <div className="text-right">
-                        <div className="font-mono font-medium">{formatNumber(bet.amount)} QU</div>
+                        <div className="font-mono font-medium">{formatNumber(bet.amount)} QVX</div>
                         {bet.won !== null && (
                           <div className={cn(
                             "text-sm font-mono",
@@ -228,7 +228,7 @@ export default function WalletPage() {
                       <div>
                         <div className="text-sm text-muted-foreground">Round #{claim.roundId}</div>
                         <div className="font-mono font-bold text-primary">
-                          +{formatNumber(claim.amount)} QU
+                          +{formatNumber(claim.amount)} QVX
                         </div>
                       </div>
                       <Button
@@ -245,7 +245,7 @@ export default function WalletPage() {
                     className="w-full mt-4"
                     disabled={isClaiming}
                   >
-                    Claim All ({formatNumber(totalClaimable)} QU)
+                    Claim All ({formatNumber(totalClaimable)} QVX)
                   </Button>
                 </div>
               ) : (
