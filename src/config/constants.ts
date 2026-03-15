@@ -10,9 +10,9 @@ export const QUBIC_CONFIG = {
   houseFee: 0.02, // 2%
   minBet: 1,
   maxBet: 10000,
-  contractId: 1, // TickDeriv contract ID
+  contractId: 1, // Qovarix contract ID
   // Simulation mode enabled for testing UI/wallet (backend contract not deployed yet)
-  // Set to false when TickDeriv smart contract is deployed on Qubic
+  // Set to false when Qovarix smart contract is deployed on Qubic
   simulationMode: true,
 };
 

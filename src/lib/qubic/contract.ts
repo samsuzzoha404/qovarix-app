@@ -2,7 +2,7 @@ import { Round, Bet, Tick, PriceData, BetDirection, ClaimableWinnings } from '@/
 import { QUBIC_CONFIG } from '@/config/constants';
 import { qubicConnector } from './connector';
 
-// Simulation state for demo purposes (when TickDeriv SC is not deployed)
+// Simulation state for demo purposes (when Qovarix SC is not deployed)
 let simulatedRoundId = 1000;
 let simulatedPrice = 0.000025; // Simulated QU price in USD
 let priceHistory: number[] = [simulatedPrice];

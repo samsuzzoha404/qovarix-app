@@ -1,17 +1,17 @@
 <div align="center">
 
-# 🎲 Tick-Deriv
+# 🎲 Qovarix
 
 ### _Decentralized Binary Options Trading on Qubic Blockchain_
 
-[![Live Demo](https://img.shields.io/badge/demo-live-green)](https://tick-deriv.vercel.app/)
+[![Live Demo](https://img.shields.io/badge/demo-live-green)](https://qovarix.app/)
 [![Built with Qubic](https://img.shields.io/badge/blockchain-Qubic-blue)](https://qubic.org/)
-[![Smart Contract](https://img.shields.io/badge/smart%20contract-repo-orange)](https://github.com/arafateasin/TickDeriv)
+[![Smart Contract](https://img.shields.io/badge/smart%20contract-repo-orange)](https://github.com/arafateasin/Qovarix)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 **A revolutionary decentralized trading platform enabling binary options trading on tick-based price movements with transparent, on-chain execution powered by Qubic blockchain.**
 
-[🚀 Live Demo](https://tick-deriv.vercel.app/) • [📜 Smart Contract](https://github.com/arafateasin/TickDeriv) • [📖 Documentation](#-documentation) • [🤝 Contributing](#-contributing)
+[🚀 Live Demo](https://qovarix.app/) • [📜 Smart Contract](https://github.com/arafateasin/Qovarix) • [📖 Documentation](#-documentation) • [🤝 Contributing](#-contributing)
 
 </div>
 
@@ -36,9 +36,9 @@
 
 ## 🎯 Live Demo
 
-**Experience Tick-Deriv:** [https://tick-deriv.vercel.app/](https://tick-deriv.vercel.app/)
+**Experience Qovarix:** [https://qovarix.app/](https://qovarix.app/)
 
-**Smart Contract Repository:** [https://github.com/arafateasin/TickDeriv](https://github.com/arafateasin/TickDeriv)
+**Smart Contract Repository:** [https://github.com/arafateasin/Qovarix](https://github.com/arafateasin/Qovarix)
 
 ---
 
@@ -98,7 +98,7 @@
 
 - **Qubic** - Layer 1 Blockchain
 - **@qubic-lib/qubic-ts-library** - TypeScript SDK
-- **Custom Smart Contract** - TickDeriv SC
+- **Custom Smart Contract** - Qovarix SC
 
 </td>
 <td width="33%" valign="top">
@@ -128,8 +128,8 @@
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/samsuzzoha404/Tick-Deriv.git
-cd Tick-Deriv
+git clone https://github.com/samsuzzoha404/qovarix-app.git
+cd qovarix-app
 
 # 2. Install dependencies
 npm install
@@ -397,11 +397,11 @@ We'd love to hear from you! Whether you have questions, feedback, or want to col
 
 ### 🔗 Project Links
 
-**📦 Frontend Repository:** [https://github.com/samsuzzoha404/Tick-Deriv](https://github.com/samsuzzoha404/Tick-Deriv)
+**📦 Frontend Repository:** [https://github.com/samsuzzoha404/qovarix-app](https://github.com/samsuzzoha404/qovarix-app)
 
-**⚡ Smart Contract Repository:** [https://github.com/arafateasin/TickDeriv](https://github.com/arafateasin/TickDeriv)
+**⚡ Smart Contract Repository:** [https://github.com/arafateasin/Qovarix](https://github.com/arafateasin/Qovarix)
 
-**🌐 Live Application:** [https://tick-deriv.vercel.app/](https://tick-deriv.vercel.app/)
+**🌐 Live Application:** [https://qovarix.app/](https://qovarix.app/)
 
 </div>
 

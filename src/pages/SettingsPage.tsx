@@ -100,7 +100,7 @@ export default function SettingsPage() {
               </div>
 
               <p className="text-sm text-muted-foreground">
-                TickDeriv currently operates on Qubic Testnet. Mainnet support coming soon.
+                Qovarix currently operates on Qubic Testnet. Mainnet support coming soon.
               </p>
             </div>
           </GlassCard>

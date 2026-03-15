@@ -11,7 +11,7 @@ export function Footer() {
               <Target className="h-5 w-5 text-primary-foreground" />
             </div>
             <span className="font-bold text-lg">
-              Tick<span className="text-primary">Deriv</span>
+              Qova<span className="text-primary">rix</span>
             </span>
           </div>
 
@@ -37,7 +37,7 @@ export function Footer() {
         </div>
 
         <div className="mt-8 pt-8 border-t border-border/60 text-center text-sm text-muted-foreground">
-          © {new Date().getFullYear()} TickDeriv. Decentralized trading platform on Qubic.
+          © {new Date().getFullYear()} Qovarix. Decentralized trading platform on Qubic.
         </div>
       </div>
     </footer>
