@@ -168,7 +168,11 @@ export default function SettingsPage() {
               <h2 className="text-xl font-semibold">Notifications</h2>
             </div>
 
-            <div className="space-y-6">
+            <div className="mb-4 text-xs font-medium text-muted-foreground">
+              Coming in live integration
+            </div>
+
+            <div className="space-y-6 opacity-70">
               <div className="flex items-center justify-between">
                 <div>
                   <Label htmlFor="round-alerts" className="text-lg font-semibold">
@@ -178,7 +182,7 @@ export default function SettingsPage() {
                     Get notified when rounds end
                   </p>
                 </div>
-                <Switch id="round-alerts" />
+                <Switch id="round-alerts" disabled aria-disabled="true" />
               </div>
 
               <div className="flex items-center justify-between">
@@ -190,7 +194,7 @@ export default function SettingsPage() {
                     Get notified when you win a round
                   </p>
                 </div>
-                <Switch id="win-alerts" defaultChecked />
+                <Switch id="win-alerts" checked={false} disabled aria-disabled="true" />
               </div>
 
               <div className="flex items-center justify-between">
@@ -202,7 +206,7 @@ export default function SettingsPage() {
                     Play sounds for trade actions
                   </p>
                 </div>
-                <Switch id="sound" />
+                <Switch id="sound" disabled aria-disabled="true" />
               </div>
             </div>
           </GlassCard>
@@ -216,7 +220,11 @@ export default function SettingsPage() {
               <h2 className="text-xl font-semibold">Security</h2>
             </div>
 
-            <div className="space-y-6">
+            <div className="mb-4 text-xs font-medium text-muted-foreground">
+              Coming in live integration
+            </div>
+
+            <div className="space-y-6 opacity-70">
               <div className="flex items-center justify-between">
                 <div>
                   <Label htmlFor="confirm-bets" className="text-lg font-semibold">
@@ -226,7 +234,7 @@ export default function SettingsPage() {
                     Require confirmation for trades over 500 QVX trading balance
                   </p>
                 </div>
-                <Switch id="confirm-bets" defaultChecked />
+                <Switch id="confirm-bets" checked={false} disabled aria-disabled="true" />
               </div>
 
               <div className="flex items-center justify-between">
@@ -238,7 +246,7 @@ export default function SettingsPage() {
                     Disconnect wallet after 30 minutes of inactivity
                   </p>
                 </div>
-                <Switch id="auto-disconnect" />
+                <Switch id="auto-disconnect" disabled aria-disabled="true" />
               </div>
             </div>
           </GlassCard>
@@ -266,7 +274,7 @@ export default function SettingsPage() {
             </div>
 
             <p className="text-base text-muted-foreground mt-6 leading-relaxed">
-              More languages coming soon.
+              More languages coming in live integration.
             </p>
           </GlassCard>
         </div>

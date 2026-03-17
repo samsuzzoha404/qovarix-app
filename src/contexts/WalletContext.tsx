@@ -1,10 +1,9 @@
-import { createContext, useContext, useState, useCallback, useEffect, useRef, ReactNode } from 'react';
-import { qubicConnector, QubicConnector, TransactionResult, ContractTxParams } from '@/lib/qubic/connector';
+import { createContext, useState, useCallback, useEffect, useRef, ReactNode } from 'react';
+import { qubicConnector, TransactionResult, ContractTxParams } from '@/lib/qubic/connector';
 import { WalletState } from '@/types';
 import { QUBIC_CONFIG } from '@/config/constants';
 
 const STORAGE_KEY = 'qubic_wallet_connected';
-const SEED_STORAGE_KEY = 'qubic_wallet_seed';
 const DEMO_WALLET_KEY = 'qubic_demo_wallet';
 const DEMO_BALANCE_KEY = 'qubic_demo_balance';
 
@@ -15,7 +14,7 @@ const INITIAL_DEMO_BALANCE = 10000;
 export interface WalletContextValue extends WalletState {
   isConnecting: boolean;
   error: string | null;
-  connectWallet: (seed: string) => Promise<void>;
+  connectWallet: () => Promise<void>;
   connectDemoWallet: () => Promise<void>;
   disconnectWallet: () => void;
   getAddress: () => string | null;
@@ -54,28 +53,12 @@ export function WalletProvider({ children }: WalletProviderProps) {
     }
   }, []);
 
-  const connectWalletInternal = useCallback(async (seed: string): Promise<void> => {
-    if (!QubicConnector.isValidSeed(seed)) {
-      throw new Error('Invalid seed: must be at least 55 characters');
-    }
-
+  const connectWalletInternal = useCallback(async (): Promise<void> => {
     setIsConnecting(true);
     setError(null);
 
     try {
-      const walletInfo = await qubicConnector.connect(seed);
-      const balance = await qubicConnector.getBalance();
-
-      setState({
-        connected: true,
-        address: walletInfo.address,
-        balance,
-      });
-
-      setIsDemoMode(false); // Clear demo mode for real wallet
-      localStorage.setItem(STORAGE_KEY, 'true');
-      localStorage.removeItem(DEMO_WALLET_KEY); // Ensure demo flag is cleared
-      sessionStorage.setItem(SEED_STORAGE_KEY, seed);
+      throw new Error('Live wallet integration is coming in live integration. Use Demo Wallet for now.');
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to connect wallet';
       setError(message);
@@ -113,7 +96,6 @@ export function WalletProvider({ children }: WalletProviderProps) {
       localStorage.setItem(STORAGE_KEY, 'true');
       localStorage.setItem(DEMO_WALLET_KEY, 'true');
       localStorage.setItem(DEMO_BALANCE_KEY, balance.toString());
-      sessionStorage.removeItem(SEED_STORAGE_KEY); // Clear real wallet seed
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to connect demo wallet';
       setError(message);
@@ -130,23 +112,19 @@ export function WalletProvider({ children }: WalletProviderProps) {
 
     const wasConnected = localStorage.getItem(STORAGE_KEY) === 'true';
     const isDemoWallet = localStorage.getItem(DEMO_WALLET_KEY) === 'true';
-    const storedSeed = sessionStorage.getItem(SEED_STORAGE_KEY);
     
     if (wasConnected && isDemoWallet) {
       connectDemoWalletInternal().catch(() => {
         localStorage.removeItem(STORAGE_KEY);
         localStorage.removeItem(DEMO_WALLET_KEY);
       });
-    } else if (wasConnected && storedSeed) {
-      connectWalletInternal(storedSeed).catch(() => {
-        localStorage.removeItem(STORAGE_KEY);
-        sessionStorage.removeItem(SEED_STORAGE_KEY);
-      });
+    } else if (wasConnected) {
+      localStorage.removeItem(STORAGE_KEY);
     }
   }, [connectWalletInternal, connectDemoWalletInternal]);
 
-  const connectWallet = useCallback(async (seed: string): Promise<void> => {
-    await connectWalletInternal(seed);
+  const connectWallet = useCallback(async (): Promise<void> => {
+    await connectWalletInternal();
   }, [connectWalletInternal]);
 
   const connectDemoWallet = useCallback(async (): Promise<void> => {
@@ -165,7 +143,6 @@ export function WalletProvider({ children }: WalletProviderProps) {
     setIsDemoMode(false);
     // Clear persisted state
     localStorage.removeItem(STORAGE_KEY);
-    sessionStorage.removeItem(SEED_STORAGE_KEY);
     localStorage.removeItem(DEMO_WALLET_KEY);
     setError(null);
   }, []);
@@ -270,7 +247,7 @@ export function WalletProvider({ children }: WalletProviderProps) {
         message,
       };
     }
-  }, [isDemoMode, state.balance, refreshBalance]);
+  }, [isDemoMode, refreshBalance]);
 
   const value: WalletContextValue = {
     ...state,

@@ -27,7 +27,7 @@ export default function PlaceBet() {
   const [amount, setAmount] = useState(100);
   const [betPlaced, setBetPlaced] = useState(false);
 
-  const { connected, balance, connect, isConnecting } = useWallet();
+  const { connected, balance } = useWallet();
   const { mutate: placeBet, isPending: isPlacingBet } = usePlaceBet();
   const { data: round } = useCurrentRound();
 

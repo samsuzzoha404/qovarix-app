@@ -21,16 +21,21 @@ export function Footer() {
 
           {/* Links */}
           <div className="flex items-center gap-8 text-base text-muted-foreground font-medium">
-            <a href="#" className="hover:text-primary transition-all duration-300 hover:scale-105">
-              Documentation
-            </a>
-            <a href="#" className="hover:text-primary transition-all duration-300 hover:scale-105 flex items-center gap-1.5">
+            <span className="cursor-not-allowed opacity-70" title="Documentation coming in live integration">
+              Documentation (Coming in live integration)
+            </span>
+            <a
+              href="https://base.org"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-primary transition-all duration-300 hover:scale-105 flex items-center gap-1.5"
+            >
               Base
               <ExternalLink className="h-4 w-4" />
             </a>
-            <a href="#" className="hover:text-primary transition-all duration-300 hover:scale-105">
-              Support
-            </a>
+            <span className="cursor-not-allowed opacity-70" title="Support channel coming in live integration">
+              Support (Coming in live integration)
+            </span>
           </div>
 
           {/* Network badge */}

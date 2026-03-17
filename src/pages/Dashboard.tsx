@@ -17,7 +17,7 @@ import { ROUTES } from '@/config/constants';
 import { PRODUCT } from '@/config/product';
 
 export default function Dashboard() {
-  const { connected, connect, isConnecting } = useWallet();
+  const { connected } = useWallet();
   const { data: rounds } = useRoundsHistory(5);
 
   return (

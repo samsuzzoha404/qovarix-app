@@ -545,44 +545,6 @@ export function calculatePayout(amount: number, direction: BetDirection, round: 
   return totalAfterFee * share;
 }
 
-// Helper functions to map API data to our types
-function mapRoundData(data: Record<string, unknown>): Round {
-  return {
-    id: Number(data.id ?? data.roundId ?? 0),
-    startTick: Number(data.startTick ?? 0),
-    endTick: Number(data.endTick ?? 0),
-    startPrice: Number(data.startPrice ?? 0),
-    endPrice: data.endPrice != null ? Number(data.endPrice) : null,
-    result: (data.result as BetDirection) ?? null,
-    totalPool: Number(data.totalPool ?? 0),
-    upPool: Number(data.upPool ?? 0),
-    downPool: Number(data.downPool ?? 0),
-    status: (data.status as Round['status']) ?? 'pending',
-  };
-}
-
-function mapBetData(data: Record<string, unknown>): Bet {
-  return {
-    id: String(data.id ?? data.betId ?? ''),
-    roundId: Number(data.roundId ?? 0),
-    address: String(data.address ?? ''),
-    direction: (data.direction as BetDirection) ?? 'UP',
-    amount: Number(data.amount ?? 0),
-    timestamp: Number(data.timestamp ?? Date.now()),
-    claimed: Boolean(data.claimed),
-    won: data.won != null ? Boolean(data.won) : null,
-    payout: data.payout != null ? Number(data.payout) : null,
-  };
-}
-
-function mapClaimableData(data: Record<string, unknown>): ClaimableWinnings {
-  return {
-    roundId: Number(data.roundId ?? 0),
-    amount: Number(data.amount ?? 0),
-    direction: (data.direction as BetDirection) ?? 'UP',
-  };
-}
-
 // Encode bet input for contract
 function encodeBetInput(direction: BetDirection, roundId: number): Uint8Array {
   const buffer = new ArrayBuffer(5);

@@ -22,11 +22,12 @@ import { useToast } from '@/hooks/use-toast';
 import { UI_COPY, TOKEN_LABELS } from '@/config/product';
 
 export default function WalletPage() {
-  const { connected, address, balance, connect, disconnect, isConnecting } = useWallet();
+  const { connected, address, balance, disconnect } = useWallet();
   const { data: bets, isLoading: loadingBets } = useUserBets();
   const { data: claimable, isLoading: loadingClaimable } = useUserClaimable();
-  const { mutate: claimWinnings, isPending: isClaiming } = useClaimWinnings();
+  const { mutate: claimWinnings, mutateAsync: claimWinningsAsync, isPending: isClaiming } = useClaimWinnings();
   const [copied, setCopied] = useState(false);
+  const [isClaimingAll, setIsClaimingAll] = useState(false);
   const { toast } = useToast();
 
   const copyAddress = () => {
@@ -39,6 +40,35 @@ export default function WalletPage() {
   };
 
   const totalClaimable = claimable?.reduce((sum, c) => sum + c.amount, 0) || 0;
+  const hasClaimable = Boolean(claimable && claimable.length > 0);
+
+  const handleClaimAll = async () => {
+    if (!claimable?.length || isClaiming || isClaimingAll) {
+      return;
+    }
+
+    setIsClaimingAll(true);
+    let claimedCount = 0;
+
+    try {
+      for (const claim of claimable) {
+        await claimWinningsAsync(claim.roundId);
+        claimedCount += 1;
+      }
+      toast({
+        title: 'All claims processed',
+        description: `Claimed ${claimedCount} reward${claimedCount === 1 ? '' : 's'}.`,
+      });
+    } catch (error) {
+      toast({
+        title: 'Claim All interrupted',
+        description: error instanceof Error ? error.message : 'Some claims could not be completed.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsClaimingAll(false);
+    }
+  };
 
   const stats = bets ? {
     totalTrades: bets.length,
@@ -86,10 +116,8 @@ export default function WalletPage() {
                     <Button variant="ghost" size="icon" onClick={copyAddress}>
                       {copied ? <Check className="h-4 w-4 text-up" /> : <Copy className="h-4 w-4" />}
                     </Button>
-                    <Button variant="ghost" size="icon" asChild>
-                      <a href="#" target="_blank" rel="noopener noreferrer">
-                        <ExternalLink className="h-4 w-4" />
-                      </a>
+                    <Button variant="ghost" size="icon" disabled className="cursor-not-allowed opacity-60" title="Explorer link coming in live integration">
+                      <ExternalLink className="h-4 w-4" />
                     </Button>
                   </div>
                 </div>
@@ -248,9 +276,10 @@ export default function WalletPage() {
 
                   <Button
                     className="w-full mt-4"
-                    disabled={isClaiming}
+                    onClick={handleClaimAll}
+                    disabled={isClaiming || isClaimingAll || !hasClaimable}
                   >
-                    Claim All ({formatNumber(totalClaimable)} QVX)
+                    {isClaimingAll ? 'Claiming...' : `Claim All (${formatNumber(totalClaimable)} QVX)`}
                   </Button>
                 </div>
               ) : (

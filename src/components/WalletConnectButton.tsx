@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import {
   Dialog,
   DialogContent,
@@ -9,14 +8,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Spinner } from '@/components/ui/spinner';
 import { Badge } from '@/components/ui/badge';
 import { useWallet } from '@/hooks/useWallet';
 import { formatAddress } from '@/lib/utils';
-import { Wallet, LogOut, AlertTriangle, FlaskConical } from 'lucide-react';
+import { Wallet, LogOut, FlaskConical, Lock } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { QUBIC_CONFIG } from '@/config/constants';
 import { UI_COPY } from '@/config/product';
 
 interface WalletConnectButtonProps {
@@ -32,39 +29,15 @@ export function WalletConnectButton({
   size = 'default',
   showBalance = false,
 }: WalletConnectButtonProps) {
-  const { connected, address, balance, connect, connectDemoWallet, disconnect, isConnecting, error, isDemoMode } = useWallet();
-  const [seed, setSeed] = useState('');
+  const { connected, address, balance, connectDemoWallet, disconnect, isConnecting, isDemoMode } = useWallet();
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [connectError, setConnectError] = useState<string | null>(null);
-
-  const handleConnect = async () => {
-    if (!seed.trim()) {
-      setConnectError('Please enter your seed phrase');
-      return;
-    }
-
-    if (seed.length < 55) {
-      setConnectError('Seed must be at least 55 characters');
-      return;
-    }
-
-    setConnectError(null);
-    try {
-      await connect(seed);
-      setSeed('');
-      setDialogOpen(false);
-    } catch (err) {
-      setConnectError(err instanceof Error ? err.message : 'Failed to connect');
-    }
-  };
 
   const handleDemoConnect = async () => {
-    setConnectError(null);
     try {
       await connectDemoWallet();
       setDialogOpen(false);
-    } catch (err) {
-      setConnectError(err instanceof Error ? err.message : 'Failed to connect demo wallet');
+    } catch {
+      // Error feedback is handled centrally by useWallet toasts.
     }
   };
 
@@ -74,10 +47,6 @@ export function WalletConnectButton({
 
   const handleDialogOpenChange = (open: boolean) => {
     setDialogOpen(open);
-    if (!open) {
-      setSeed('');
-      setConnectError(null);
-    }
   };
 
   if (connected && address) {
@@ -143,165 +112,51 @@ export function WalletConnectButton({
           </DialogDescription>
         </DialogHeader>
 
-        {QUBIC_CONFIG.simulationMode ? (
-          <Tabs defaultValue="demo" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="demo">Demo Wallet</TabsTrigger>
-              <TabsTrigger value="real">Real Wallet</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="demo" className="space-y-4">
-              <div className="p-4 rounded-lg bg-primary/10 border border-primary/20">
-                <div className="flex items-start gap-2 mb-3">
-                  <FlaskConical className="h-5 w-5 text-primary mt-0.5" />
-                  <div>
-                    <h4 className="font-semibold text-sm">{UI_COPY.demoWalletTitle}</h4>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      {UI_COPY.demoWalletDescription}
-                    </p>
-                  </div>
-                </div>
-                <Button
-                  onClick={handleDemoConnect}
-                  disabled={isConnecting}
-                  className="w-full"
-                >
-                  {isConnecting ? (
-                    <>
-                      <Spinner size="sm" className="mr-2" />
-                      Connecting...
-                    </>
-                  ) : (
-                    <>
-                      <FlaskConical className="h-4 w-4 mr-2" />
-                      Start Demo
-                    </>
-                  )}
-                </Button>
-              </div>
-
-              {(connectError || error) && (
-                <div className="flex items-center gap-2 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
-                  <AlertTriangle className="h-4 w-4 flex-shrink-0" />
-                  <span>{connectError || error}</span>
-                </div>
-              )}
-            </TabsContent>
-
-            <TabsContent value="real" className="space-y-4">
-              <div className="space-y-2">
-                <Input
-                  type="password"
-                  placeholder={UI_COPY.seedInputPlaceholder}
-                  value={seed}
-                  onChange={(e) => {
-                    setSeed(e.target.value);
-                    setConnectError(null);
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' && !isConnecting) {
-                      handleConnect();
-                    }
-                  }}
-                  disabled={isConnecting}
-                  className="font-mono"
-                />
-                <p className="text-xs text-muted-foreground">
-                  {UI_COPY.seedPrivacyNote}
+        <div className="space-y-4 py-2">
+          <div className="p-4 rounded-lg bg-primary/10 border border-primary/20">
+            <div className="flex items-start gap-2 mb-3">
+              <FlaskConical className="h-5 w-5 text-primary mt-0.5" />
+              <div>
+                <h4 className="font-semibold text-sm">{UI_COPY.demoWalletTitle}</h4>
+                <p className="text-xs text-muted-foreground mt-1">
+                  {UI_COPY.demoWalletDescription}
                 </p>
               </div>
-
-              {(connectError || error) && (
-                <div className="flex items-center gap-2 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
-                  <AlertTriangle className="h-4 w-4 flex-shrink-0" />
-                  <span>{connectError || error}</span>
-                </div>
+            </div>
+            <Button
+              onClick={handleDemoConnect}
+              disabled={isConnecting}
+              className="w-full"
+            >
+              {isConnecting ? (
+                <>
+                  <Spinner size="sm" className="mr-2" />
+                  Connecting...
+                </>
+              ) : (
+                <>
+                  <FlaskConical className="h-4 w-4 mr-2" />
+                  Start Demo
+                </>
               )}
-
-              <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  onClick={() => handleDialogOpenChange(false)}
-                  disabled={isConnecting}
-                  className="flex-1"
-                >
-                  Cancel
-                </Button>
-                <Button
-                  onClick={handleConnect}
-                  disabled={isConnecting || !seed.trim()}
-                  className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90"
-                >
-                  {isConnecting ? (
-                    <>
-                      <Spinner size="sm" className="mr-2" />
-                      Connecting...
-                    </>
-                  ) : (
-                    'Connect'
-                  )}
-                </Button>
-              </div>
-            </TabsContent>
-          </Tabs>
-        ) : (
-          // Real wallet only (simulationMode: false)
-          <div className="space-y-4 py-4">
-            <div className="space-y-2">
-              <Input
-                type="password"
-                placeholder={UI_COPY.seedInputPlaceholder}
-                value={seed}
-                onChange={(e) => {
-                  setSeed(e.target.value);
-                  setConnectError(null);
-                }}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' && !isConnecting) {
-                    handleConnect();
-                  }
-                }}
-                disabled={isConnecting}
-                className="font-mono"
-              />
-              <p className="text-xs text-muted-foreground">
-                {UI_COPY.seedPrivacyNote}
-              </p>
-            </div>
-
-            {(connectError || error) && (
-              <div className="flex items-center gap-2 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
-                <AlertTriangle className="h-4 w-4 flex-shrink-0" />
-                <span>{connectError || error}</span>
-              </div>
-            )}
-
-            <div className="flex gap-2">
-              <Button
-                variant="outline"
-                onClick={() => handleDialogOpenChange(false)}
-                disabled={isConnecting}
-                className="flex-1"
-              >
-                Cancel
-              </Button>
-              <Button
-                onClick={handleConnect}
-                disabled={isConnecting || !seed.trim()}
-                className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90"
-              >
-                {isConnecting ? (
-                  <>
-                    <Spinner size="sm" className="mr-2" />
-                    Connecting...
-                  </>
-                ) : (
-                  'Connect'
-                )}
-              </Button>
-            </div>
+            </Button>
           </div>
-        )}
+
+          <div className="p-4 rounded-lg border border-border/60 bg-muted/40">
+            <div className="flex items-start gap-2 mb-3">
+              <Lock className="h-5 w-5 text-muted-foreground mt-0.5" />
+              <div>
+                <h4 className="font-semibold text-sm">Live Wallet</h4>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Coming in live integration.
+                </p>
+              </div>
+            </div>
+            <Button disabled variant="outline" className="w-full cursor-not-allowed opacity-60">
+              Live Wallet Coming Soon
+            </Button>
+          </div>
+        </div>
       </DialogContent>
     </Dialog>
   );

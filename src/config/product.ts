@@ -101,13 +101,10 @@ export const TOKEN_LABELS = {
 export const UI_COPY = {
   // Wallet connect dialog
   walletConnectTitle: 'Connect to Qovarix',
-  walletConnectSubtext: 'Try demo mode or connect with your wallet.',
+  walletConnectSubtext: 'Use Demo Wallet today. Live wallet support is coming in live integration.',
   demoWalletTitle: 'Demo Wallet',
   demoWalletDescription:
     'Instant access with demo credits. Simulate real trading rounds, no real funds required.',
-  realWalletDescription: 'Connect your wallet to trade on Qovarix.',
-  seedInputPlaceholder: 'Enter your wallet seed phrase (55+ characters)',
-  seedPrivacyNote: 'Your seed phrase never leaves your browser.',
 
   // Trades
   tradePlacedTitle: 'Trade Placed',

@@ -1,8 +1,12 @@
 import QubicLib from '@qubic-lib/qubic-ts-library';
 import { QUBIC_CONFIG } from '@/config/constants';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const QubicHelper = (QubicLib as any).QubicHelper;
+interface QubicHelperLike {
+  createIdPackage(seed: string): Promise<IdPackage>;
+  createTransaction(seed: string, destinationAddress: string, amount: number, targetTick: number): Promise<Uint8Array>;
+}
+
+const QubicHelper = (QubicLib as { QubicHelper: new () => QubicHelperLike }).QubicHelper;
 
 // RPC endpoints for Qubic network
 // Note: Testnet RPC (testnet-rpc.qubic.org) returns 521 error, using mainnet
@@ -41,8 +45,7 @@ export class QubicConnector {
   private seed: string | null = null;
   private walletInfo: WalletInfo | null = null;
   private idPackage: IdPackage | null = null;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private helper: any;
+  private helper: QubicHelperLike;
   private rpcUrl: string;
 
   constructor(network: 'mainnet' | 'testnet' = 'testnet') {

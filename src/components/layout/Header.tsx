@@ -29,7 +29,7 @@ const navItems = [
 
 export function Header() {
   const location = useLocation();
-  const { connected, address, balance, connect, disconnect, isConnecting } = useWallet();
+  const { connected, address, balance, disconnect } = useWallet();
   const { theme, toggleTheme } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 

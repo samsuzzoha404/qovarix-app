@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import { useWalletContext } from '@/hooks/useWalletContext';
 import { useToast } from '@/hooks/use-toast';
 import { useQubicBalance } from '@/hooks/useQubicBalance';
@@ -7,35 +7,26 @@ export function useWallet() {
   const walletContext = useWalletContext();
   const { toast } = useToast();
   const { data: liveBalance } = useQubicBalance();
-  const [seedInput, setSeedInput] = useState('');
 
-  const connect = useCallback(async (seed?: string) => {
-    const seedToUse = seed ?? seedInput;
-    
-    if (!seedToUse || seedToUse.length < 55) {
-      toast({
-        title: 'Invalid Seed',
-        description: 'Seed must be at least 55 characters',
-        variant: 'destructive',
-      });
-      return;
-    }
-
+  const connect = useCallback(async () => {
     try {
-      await walletContext.connectWallet(seedToUse);
-      setSeedInput('');
+      await walletContext.connectWallet();
       toast({
-        title: 'Wallet Connected',
-        description: 'Successfully connected to your wallet',
+        title: 'Live Wallet Coming Soon',
+        description: 'Live wallet integration is coming in live integration. Use Demo Wallet for now.',
       });
     } catch (error) {
       toast({
-        title: 'Connection Failed',
+        title: 'Live Wallet Unavailable',
         description: error instanceof Error ? error.message : 'Failed to connect wallet',
         variant: 'destructive',
       });
     }
-  }, [walletContext, seedInput, toast]);
+  }, [walletContext, toast]);
+
+  const connectDemoWallet = useCallback(async () => {
+    await walletContext.connectDemoWallet();
+  }, [walletContext]);
 
   const disconnect = useCallback(() => {
     walletContext.disconnectWallet();
@@ -57,11 +48,9 @@ export function useWallet() {
     isConnecting: walletContext.isConnecting,
     error: walletContext.error,
     connect,
-    connectDemoWallet: walletContext.connectDemoWallet,
+    connectDemoWallet,
     disconnect,
     disconnectWallet: walletContext.disconnectWallet,
-    seedInput,
-    setSeedInput,
     signAndSendTx: walletContext.signAndSendTx,
     refreshBalance: walletContext.refreshBalance,
     isDemoMode: walletContext.isDemoMode,
