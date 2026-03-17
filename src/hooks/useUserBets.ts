@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getUserBets, getUserClaimable } from '@/lib/qubic/contract';
+import { dataAdapter } from '@/services';
 import { REFETCH_INTERVALS } from '@/config/constants';
 import { useWallet } from './useWallet';
 
@@ -8,7 +8,7 @@ export function useUserBets() {
 
   return useQuery({
     queryKey: ['userBets', address],
-    queryFn: () => getUserBets(address!),
+    queryFn: () => dataAdapter.getUserBets(address!),
     enabled: connected && !!address,
     refetchInterval: REFETCH_INTERVALS.rounds,
   });
@@ -19,7 +19,7 @@ export function useUserClaimable() {
 
   return useQuery({
     queryKey: ['userClaimable', address],
-    queryFn: () => getUserClaimable(address!),
+    queryFn: () => dataAdapter.getUserClaimable(address!),
     enabled: connected && !!address,
     refetchInterval: REFETCH_INTERVALS.rounds,
   });

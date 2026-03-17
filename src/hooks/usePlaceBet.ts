@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { placeBet, claimWinnings } from '@/lib/qubic/contract';
+import { dataAdapter } from '@/services';
 import { BetDirection } from '@/types';
 import { useToast } from '@/hooks/use-toast';
 import { useWallet } from '@/hooks/useWallet';
@@ -11,7 +11,12 @@ export function usePlaceBet() {
 
   return useMutation({
     mutationFn: ({ direction, amount }: { direction: BetDirection; amount: number }) =>
-      placeBet(direction, amount, address || undefined, balance),
+      dataAdapter.placeBet({
+        direction,
+        amount,
+        walletAddress: address!,
+        walletBalance: balance,
+      }),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['userBets'] });
       queryClient.invalidateQueries({ queryKey: ['currentRound'] });
@@ -36,16 +41,16 @@ export function useClaimWinnings() {
   const { address } = useWallet();
 
   return useMutation({
-    mutationFn: (roundId: number) => claimWinnings(roundId, address || undefined),
+    mutationFn: (roundId: number) => dataAdapter.claimWinnings(roundId, address!),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['userClaimable'] });
       queryClient.invalidateQueries({ queryKey: ['userBets'] });
-      
-      // Force refresh wallet context to update balance
+
+      // Notify wallet context to refresh balance
       setTimeout(() => {
         window.dispatchEvent(new Event('wallet-balance-update'));
       }, 100);
-      
+
       toast({
         title: 'Winnings Claimed!',
         description: `You received ${data.amount.toFixed(2)} QVX`,

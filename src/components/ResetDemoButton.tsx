@@ -3,6 +3,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { RotateCcw } from 'lucide-react';
 import { useWallet } from '@/hooks/useWallet';
 import { QUBIC_CONFIG } from '@/config/constants';
+import { STORAGE_KEYS } from '@/config/app';
 
 export function ResetDemoButton() {
   const { isDemoMode, disconnectWallet } = useWallet();
@@ -13,11 +14,11 @@ export function ResetDemoButton() {
 
   const handleReset = () => {
     // Clear all demo data
-    localStorage.removeItem('qubic_demo_balance');
-    localStorage.removeItem('qubic_demo_bets');
-    localStorage.removeItem('qubic_demo_price');
-    localStorage.removeItem('qubic_demo_price_history');
-    localStorage.removeItem('qubic_demo_round_prices');
+    localStorage.removeItem(STORAGE_KEYS.demoBalance);
+    localStorage.removeItem(STORAGE_KEYS.demoBets);
+    localStorage.removeItem(STORAGE_KEYS.demoPrice);
+    localStorage.removeItem(STORAGE_KEYS.demoPriceHistory);
+    localStorage.removeItem(STORAGE_KEYS.demoRoundPrices);
     
     // Disconnect and reload
     disconnectWallet();

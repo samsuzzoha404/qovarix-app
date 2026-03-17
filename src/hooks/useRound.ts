@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
-import { getCurrentRound, getRound } from '@/lib/qubic/contract';
+import { dataAdapter } from '@/services';
 import { REFETCH_INTERVALS } from '@/config/constants';
 
 export function useCurrentRound() {
   return useQuery({
     queryKey: ['currentRound'],
-    queryFn: getCurrentRound,
+    queryFn: () => dataAdapter.getCurrentRound(),
     refetchInterval: REFETCH_INTERVALS.tick,
     staleTime: 0,
   });
@@ -14,7 +14,7 @@ export function useCurrentRound() {
 export function useRound(roundId: number) {
   return useQuery({
     queryKey: ['round', roundId],
-    queryFn: () => getRound(roundId),
+    queryFn: () => dataAdapter.getRound(roundId),
     refetchInterval: REFETCH_INTERVALS.rounds,
   });
 }

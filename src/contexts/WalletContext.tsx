@@ -2,14 +2,7 @@ import { createContext, useState, useCallback, useEffect, useRef, ReactNode } fr
 import { qubicConnector, TransactionResult, ContractTxParams } from '@/lib/qubic/connector';
 import { WalletState } from '@/types';
 import { QUBIC_CONFIG } from '@/config/constants';
-
-const STORAGE_KEY = 'qubic_wallet_connected';
-const DEMO_WALLET_KEY = 'qubic_demo_wallet';
-const DEMO_BALANCE_KEY = 'qubic_demo_balance';
-
-// Demo wallet configuration
-const DEMO_ADDRESS = 'DEMOCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCAAAAA';
-const INITIAL_DEMO_BALANCE = 10000;
+import { DEMO_WALLET, STORAGE_KEYS } from '@/config/app';
 
 export interface WalletContextValue extends WalletState {
   isConnecting: boolean;
@@ -43,12 +36,11 @@ export function WalletProvider({ children }: WalletProviderProps) {
 
   // Clean up any corrupted localStorage data on mount
   useEffect(() => {
-    const savedBalance = localStorage.getItem(DEMO_BALANCE_KEY);
+    const savedBalance = localStorage.getItem(STORAGE_KEYS.demoBalance);
     if (savedBalance) {
       const parsed = parseFloat(savedBalance);
       if (isNaN(parsed) || !isFinite(parsed)) {
-        console.warn('Corrupted balance detected, resetting to initial balance');
-        localStorage.setItem(DEMO_BALANCE_KEY, INITIAL_DEMO_BALANCE.toString());
+        localStorage.setItem(STORAGE_KEYS.demoBalance, DEMO_WALLET.initialBalance.toString());
       }
     }
   }, []);
@@ -56,7 +48,6 @@ export function WalletProvider({ children }: WalletProviderProps) {
   const connectWalletInternal = useCallback(async (): Promise<void> => {
     setIsConnecting(true);
     setError(null);
-
     try {
       throw new Error('Live wallet integration is coming in live integration. Use Demo Wallet for now.');
     } catch (err) {
@@ -77,25 +68,18 @@ export function WalletProvider({ children }: WalletProviderProps) {
     setError(null);
 
     try {
-      // Load saved demo balance or use initial
-      const savedBalance = localStorage.getItem(DEMO_BALANCE_KEY);
-      let balance = INITIAL_DEMO_BALANCE;
-      
+      const savedBalance = localStorage.getItem(STORAGE_KEYS.demoBalance);
+      let balance = DEMO_WALLET.initialBalance;
       if (savedBalance) {
         const parsed = parseFloat(savedBalance);
-        balance = !isNaN(parsed) && isFinite(parsed) ? parsed : INITIAL_DEMO_BALANCE;
+        balance = !isNaN(parsed) && isFinite(parsed) ? parsed : DEMO_WALLET.initialBalance;
       }
 
-      setState({
-        connected: true,
-        address: DEMO_ADDRESS,
-        balance,
-      });
-
+      setState({ connected: true, address: DEMO_WALLET.address, balance });
       setIsDemoMode(true);
-      localStorage.setItem(STORAGE_KEY, 'true');
-      localStorage.setItem(DEMO_WALLET_KEY, 'true');
-      localStorage.setItem(DEMO_BALANCE_KEY, balance.toString());
+      localStorage.setItem(STORAGE_KEYS.walletConnected, 'true');
+      localStorage.setItem(STORAGE_KEYS.demoWallet, 'true');
+      localStorage.setItem(STORAGE_KEYS.demoBalance, balance.toString());
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to connect demo wallet';
       setError(message);
@@ -110,16 +94,16 @@ export function WalletProvider({ children }: WalletProviderProps) {
     if (hasAutoConnected.current) return;
     hasAutoConnected.current = true;
 
-    const wasConnected = localStorage.getItem(STORAGE_KEY) === 'true';
-    const isDemoWallet = localStorage.getItem(DEMO_WALLET_KEY) === 'true';
-    
+    const wasConnected = localStorage.getItem(STORAGE_KEYS.walletConnected) === 'true';
+    const isDemoWallet = localStorage.getItem(STORAGE_KEYS.demoWallet) === 'true';
+
     if (wasConnected && isDemoWallet) {
       connectDemoWalletInternal().catch(() => {
-        localStorage.removeItem(STORAGE_KEY);
-        localStorage.removeItem(DEMO_WALLET_KEY);
+        localStorage.removeItem(STORAGE_KEYS.walletConnected);
+        localStorage.removeItem(STORAGE_KEYS.demoWallet);
       });
     } else if (wasConnected) {
-      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(STORAGE_KEYS.walletConnected);
     }
   }, [connectWalletInternal, connectDemoWalletInternal]);
 
@@ -133,35 +117,22 @@ export function WalletProvider({ children }: WalletProviderProps) {
 
   const disconnectWallet = useCallback((): void => {
     qubicConnector.disconnect();
-    
-    setState({
-      connected: false,
-      address: null,
-      balance: 0,
-    });
-
+    setState({ connected: false, address: null, balance: 0 });
     setIsDemoMode(false);
-    // Clear persisted state
-    localStorage.removeItem(STORAGE_KEY);
-    localStorage.removeItem(DEMO_WALLET_KEY);
+    localStorage.removeItem(STORAGE_KEYS.walletConnected);
+    localStorage.removeItem(STORAGE_KEYS.demoWallet);
     setError(null);
   }, []);
 
   const getAddress = useCallback((): string | null => {
-    if (isDemoMode) {
-      return DEMO_ADDRESS;
-    }
+    if (isDemoMode) return DEMO_WALLET.address;
     return qubicConnector.getAddress();
   }, [isDemoMode]);
 
   const getBalance = useCallback(async (): Promise<number> => {
-    if (isDemoMode) {
-      return state.balance;
-    }
-    
-    if (!qubicConnector.isConnected()) {
-      return 0;
-    }
+    if (isDemoMode) return state.balance;
+
+    if (!qubicConnector.isConnected()) return 0;
 
     try {
       const balance = await qubicConnector.getBalance();
@@ -176,14 +147,13 @@ export function WalletProvider({ children }: WalletProviderProps) {
 
   const refreshBalance = useCallback(async (): Promise<void> => {
     if (isDemoMode) {
-      const savedBalance = localStorage.getItem(DEMO_BALANCE_KEY);
+      const savedBalance = localStorage.getItem(STORAGE_KEYS.demoBalance);
       if (savedBalance) {
         const parsed = parseFloat(savedBalance);
-        const balance = !isNaN(parsed) && isFinite(parsed) ? parsed : INITIAL_DEMO_BALANCE;
+        const balance = !isNaN(parsed) && isFinite(parsed) ? parsed : DEMO_WALLET.initialBalance;
         setState(prev => ({ ...prev, balance }));
-        // Save corrected balance if it was invalid
         if (isNaN(parsed) || !isFinite(parsed)) {
-          localStorage.setItem(DEMO_BALANCE_KEY, balance.toString());
+          localStorage.setItem(STORAGE_KEYS.demoBalance, balance.toString());
         }
       }
     } else if (qubicConnector.isConnected()) {
@@ -199,53 +169,32 @@ export function WalletProvider({ children }: WalletProviderProps) {
   // Listen for balance update events (e.g., after claiming winnings)
   useEffect(() => {
     const handleBalanceUpdate = () => {
-      if (state.connected) {
-        refreshBalance();
-      }
+      if (state.connected) refreshBalance();
     };
-
     window.addEventListener('wallet-balance-update', handleBalanceUpdate);
-    return () => {
-      window.removeEventListener('wallet-balance-update', handleBalanceUpdate);
-    };
+    return () => window.removeEventListener('wallet-balance-update', handleBalanceUpdate);
   }, [state.connected, refreshBalance]);
 
   const signAndSendTx = useCallback(async (params: ContractTxParams): Promise<TransactionResult> => {
     if (isDemoMode) {
-      // Simulate transaction in demo mode
-      // Note: Balance is deducted in the contract.placeBet function
-      // This is just a placeholder for transaction simulation
       return {
-        txHash: `demo_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        txHash: `demo_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
         success: true,
         message: 'Demo transaction successful',
       };
     }
-    
+
     if (!qubicConnector.isConnected()) {
-      return {
-        txHash: '',
-        success: false,
-        message: 'Wallet not connected',
-      };
+      return { txHash: '', success: false, message: 'Wallet not connected' };
     }
 
     try {
       const result = await qubicConnector.signAndSendTx(params);
-      
-      // Refresh balance after transaction
-      if (result.success) {
-        await refreshBalance();
-      }
-      
+      if (result.success) await refreshBalance();
       return result;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Transaction failed';
-      return {
-        txHash: '',
-        success: false,
-        message,
-      };
+      return { txHash: '', success: false, message };
     }
   }, [isDemoMode, refreshBalance]);
 
@@ -270,6 +219,5 @@ export function WalletProvider({ children }: WalletProviderProps) {
   );
 }
 
-// Export context for useWalletContext hook only
 export { WalletContext };
 export type { ContractTxParams, TransactionResult };

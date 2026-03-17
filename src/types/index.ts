@@ -1,3 +1,8 @@
+// ─── Core Domain Types ────────────────────────────────────────────────────────
+// These are the frontend's canonical data contracts.
+// All adapters (mock, engine API, smart contract) must produce these shapes.
+// ─────────────────────────────────────────────────────────────────────────────
+
 export type BetDirection = 'UP' | 'DOWN';
 
 export interface Round {
@@ -55,4 +60,28 @@ export interface ClaimableWinnings {
   roundId: number;
   amount: number;
   direction: BetDirection;
+}
+
+export interface PlaceBetRequest {
+  direction: BetDirection;
+  amount: number;
+  walletAddress: string;
+  walletBalance: number;
+}
+
+export interface PlaceBetResult {
+  txHash: string;
+  bet: Bet;
+}
+
+export interface ClaimResult {
+  txHash: string;
+  amount: number;
+}
+
+export interface AISignal {
+  direction: BetDirection;
+  confidence: number; // 0–1
+  reasoning: string;
+  timestamp: number;
 }
