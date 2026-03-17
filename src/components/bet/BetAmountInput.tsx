@@ -33,13 +33,11 @@ export function BetAmountInput({
   };
 
   return (
-    <div className={cn("space-y-3", className)}>
+    <div className={cn('space-y-3', className)}>
       <div className="flex items-center justify-between">
-        <label className="text-sm font-medium text-muted-foreground">
-          Trade Amount
-        </label>
-        <span className="text-sm text-muted-foreground">
-          Available: <span className="text-foreground font-mono">{maxBalance.toFixed(2)} QVX</span>
+        <label className="text-xs font-medium text-muted-foreground">Trade Amount</label>
+        <span className="text-xs text-muted-foreground">
+          Available: <span className="text-foreground font-mono tabular-nums">{maxBalance.toFixed(2)} QVX</span>
         </span>
       </div>
 
@@ -52,14 +50,14 @@ export function BetAmountInput({
           disabled={disabled}
           min={QUBIC_CONFIG.minBet}
           max={Math.min(maxBalance, QUBIC_CONFIG.maxBet)}
-          className="text-2xl font-mono h-14 pr-16"
+          className="text-xl font-mono h-12 pr-14 tabular-nums"
         />
-        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground font-medium">
+        <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs text-muted-foreground font-medium">
           QVX
         </span>
       </div>
 
-      <div className="flex gap-2 flex-wrap">
+      <div className="flex gap-1.5 flex-wrap">
         {QUICK_AMOUNTS.map((amount) => (
           <Button
             key={amount}
@@ -67,7 +65,7 @@ export function BetAmountInput({
             size="sm"
             onClick={() => handleQuickAmount(amount)}
             disabled={disabled || amount > maxBalance}
-            className="flex-1 min-w-[60px]"
+            className="flex-1 min-w-[52px] text-xs h-8"
           >
             {amount}
           </Button>
@@ -77,7 +75,7 @@ export function BetAmountInput({
           size="sm"
           onClick={handleHalf}
           disabled={disabled}
-          className="flex-1 min-w-[60px]"
+          className="flex-1 min-w-[52px] text-xs h-8"
         >
           50%
         </Button>
@@ -86,7 +84,7 @@ export function BetAmountInput({
           size="sm"
           onClick={handleMax}
           disabled={disabled}
-          className="flex-1 min-w-[60px]"
+          className="flex-1 min-w-[52px] text-xs h-8 font-semibold"
         >
           MAX
         </Button>

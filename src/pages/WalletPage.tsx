@@ -1,9 +1,12 @@
 import { MainLayout } from '@/components/layout/MainLayout';
 import { GlassCard } from '@/components/ui/glass-card';
+import { SectionHeader } from '@/components/ui/section-header';
 import { ResultBadge } from '@/components/bet/ResultBadge';
 import { WalletConnectButton } from '@/components/WalletConnectButton';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
+import { MetricCard } from '@/components/ui/metric-card';
+import { EmptyState } from '@/components/ui/empty-state';
 import { useWallet } from '@/hooks/useWallet';
 import { useUserBets, useUserClaimable } from '@/hooks/useUserBets';
 import { useClaimWinnings } from '@/hooks/usePlaceBet';
@@ -15,7 +18,8 @@ import {
   TrendingUp,
   TrendingDown,
   Gift,
-  Check
+  Check,
+  Activity,
 } from 'lucide-react';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
@@ -43,13 +47,9 @@ export default function WalletPage() {
   const hasClaimable = Boolean(claimable && claimable.length > 0);
 
   const handleClaimAll = async () => {
-    if (!claimable?.length || isClaiming || isClaimingAll) {
-      return;
-    }
-
+    if (!claimable?.length || isClaiming || isClaimingAll) return;
     setIsClaimingAll(true);
     let claimedCount = 0;
-
     try {
       for (const claim of claimable) {
         await claimWinningsAsync(claim.roundId);
@@ -74,24 +74,25 @@ export default function WalletPage() {
     totalTrades: bets.length,
     wins: bets.filter(b => b.won === true).length,
     losses: bets.filter(b => b.won === false).length,
-    pending: bets.filter(b => b.won === null).length,
     totalWagered: bets.reduce((sum, b) => sum + b.amount, 0),
-    totalWon: bets.filter(b => b.won).reduce((sum, b) => sum + (b.payout || 0), 0),
+    winRate: bets.filter(b => b.won !== null).length > 0
+      ? ((bets.filter(b => b.won === true).length / bets.filter(b => b.won !== null).length) * 100).toFixed(0)
+      : '0',
   } : null;
 
   if (!connected) {
     return (
       <MainLayout>
         <div className="container py-16">
-          <GlassCard className="p-10 text-center max-w-md mx-auto shadow-2xl">
-            <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-6">
-              <Wallet className="h-10 w-10 text-primary" />
+          <GlassCard className="p-10 text-center max-w-sm mx-auto">
+            <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-5">
+              <Wallet className="h-8 w-8 text-primary" />
             </div>
-            <h2 className="text-2xl font-bold mb-3">Connect Your Wallet</h2>
-            <p className="text-muted-foreground mb-8 leading-relaxed">
+            <h2 className="text-xl font-bold mb-2">Connect Your Wallet</h2>
+            <p className="text-sm text-muted-foreground mb-7 leading-relaxed">
               View your trading balance, trade history, and claimable rewards.
             </p>
-            <WalletConnectButton size="lg" className="w-full py-6" />
+            <WalletConnectButton size="lg" className="w-full" />
           </GlassCard>
         </div>
       </MainLayout>
@@ -101,23 +102,31 @@ export default function WalletPage() {
   return (
     <MainLayout>
       <div className="container py-10 max-w-7xl mx-auto">
-        <h1 className="text-4xl md:text-5xl font-bold mb-10 tracking-tight">Wallet</h1>
+        <div className="mb-8">
+          <h1 className="text-3xl md:text-4xl font-bold mb-1 tracking-tight">Wallet</h1>
+        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Main column */}
-          <div className="lg:col-span-2 space-y-8">
+          <div className="lg:col-span-2 space-y-6">
             {/* Wallet Info */}
-            <GlassCard className="p-8 shadow-xl">
-              <div className="flex items-start justify-between mb-8">
+            <GlassCard className="p-6">
+              <div className="flex items-start justify-between mb-6">
                 <div>
-                  <div className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-2">Wallet Address</div>
-                  <div className="flex items-center gap-3">
-                    <span className="font-mono text-xl font-semibold">{formatAddress(address || '', 8)}</span>
-                    <Button variant="ghost" size="icon" onClick={copyAddress}>
-                      {copied ? <Check className="h-4 w-4 text-up" /> : <Copy className="h-4 w-4" />}
+                  <div className="section-label mb-1.5">Wallet Address</div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-mono text-lg font-semibold">{formatAddress(address || '', 8)}</span>
+                    <Button variant="ghost" size="icon" onClick={copyAddress} className="h-8 w-8">
+                      {copied ? <Check className="h-3.5 w-3.5 text-up" /> : <Copy className="h-3.5 w-3.5" />}
                     </Button>
-                    <Button variant="ghost" size="icon" disabled className="cursor-not-allowed opacity-60" title="Explorer link coming in live integration">
-                      <ExternalLink className="h-4 w-4" />
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      disabled
+                      className="h-8 w-8 cursor-not-allowed opacity-40"
+                      title="Explorer link coming in live integration"
+                    >
+                      <ExternalLink className="h-3.5 w-3.5" />
                     </Button>
                   </div>
                 </div>
@@ -126,141 +135,125 @@ export default function WalletPage() {
                 </Button>
               </div>
 
-              <div className="grid grid-cols-2 gap-6">
-                <div className="p-6 rounded-xl bg-muted/60 border border-border/50">
-                  <div className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-1">
-                    {TOKEN_LABELS.tradingBalance}
-                  </div>
-                  <div className="text-3xl font-bold font-mono">{formatNumber(balance)} QVX</div>
-                  <div className="text-xs text-muted-foreground mt-1">{TOKEN_LABELS.collateralUnitFull}</div>
-                </div>
-                <div className="p-4 rounded-lg bg-primary/10">
-                  <div className="text-sm text-muted-foreground mb-1">{TOKEN_LABELS.claimableLabel}</div>
-                  <div className="text-3xl font-bold font-mono text-primary">
-                    {formatNumber(totalClaimable)} QVX
-                  </div>
-                  <div className="text-xs text-muted-foreground mt-1">{TOKEN_LABELS.rewardsLabel}</div>
-                </div>
+              <div className="grid grid-cols-2 gap-4">
+                <MetricCard
+                  label={TOKEN_LABELS.tradingBalance}
+                  value={`${formatNumber(balance)} QVX`}
+                  sub={TOKEN_LABELS.collateralUnitFull}
+                  accent="neutral"
+                />
+                <MetricCard
+                  label={TOKEN_LABELS.claimableLabel}
+                  value={`${formatNumber(totalClaimable)} QVX`}
+                  sub={TOKEN_LABELS.rewardsLabel}
+                  accent="primary"
+                />
               </div>
             </GlassCard>
 
             {/* Stats */}
             {stats && (
-              <GlassCard className="p-6">
-                <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">
-                  Your Statistics
-                </h3>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div className="text-center p-3 rounded-lg bg-muted/30">
-                    <div className="text-2xl font-bold">{stats.totalTrades}</div>
-                    <div className="text-xs text-muted-foreground">{UI_COPY.totalTrades}</div>
-                  </div>
-                  <div className="text-center p-3 rounded-lg bg-up/10">
-                    <div className="text-2xl font-bold text-up">{stats.wins}</div>
-                    <div className="text-xs text-muted-foreground">Wins</div>
-                  </div>
-                  <div className="text-center p-3 rounded-lg bg-down/10">
-                    <div className="text-2xl font-bold text-down">{stats.losses}</div>
-                    <div className="text-xs text-muted-foreground">Losses</div>
-                  </div>
-                  <div className="text-center p-3 rounded-lg bg-muted/30">
-                    <div className="text-2xl font-bold">
-                      {stats.totalTrades > 0 ? ((stats.wins / (stats.wins + stats.losses)) * 100 || 0).toFixed(0) : 0}%
-                    </div>
-                    <div className="text-xs text-muted-foreground">Win Rate</div>
-                  </div>
+              <GlassCard className="p-5">
+                <SectionHeader title="Your Statistics" />
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  <MetricCard label={UI_COPY.totalTrades} value={stats.totalTrades} accent="neutral" />
+                  <MetricCard label="Wins" value={stats.wins} accent="up" />
+                  <MetricCard label="Losses" value={stats.losses} accent="down" />
+                  <MetricCard label="Win Rate" value={`${stats.winRate}%`} accent="neutral" />
                 </div>
               </GlassCard>
             )}
 
             {/* Trade History */}
-            <GlassCard className="p-6">
-              <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">
-                {UI_COPY.tradeHistory}
-              </h3>
+            <GlassCard className="overflow-hidden p-0">
+              <div className="px-5 pt-5 pb-4 border-b border-border/50">
+                <SectionHeader title={UI_COPY.tradeHistory} />
+              </div>
 
               {loadingBets ? (
-                <div className="flex justify-center py-8">
+                <div className="flex justify-center py-10">
                   <Spinner />
                 </div>
               ) : bets && bets.length > 0 ? (
-                <div className="space-y-3">
+                <div className="divide-y divide-border/40">
                   {bets.map((bet) => (
                     <div
                       key={bet.id}
-                      className="flex items-center justify-between p-4 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors"
+                      className="flex items-center justify-between px-5 py-3.5 hover:bg-muted/25 transition-colors"
                     >
-                      <div className="flex items-center gap-4">
+                      <div className="flex items-center gap-3">
                         <div className={cn(
-                          "p-2 rounded-full",
-                          bet.direction === 'UP' ? "bg-up/20" : "bg-down/20"
+                          'p-1.5 rounded-full',
+                          bet.direction === 'UP' ? 'bg-up/12' : 'bg-down/12'
                         )}>
                           {bet.direction === 'UP' ? (
-                            <TrendingUp className="h-5 w-5 text-up" />
+                            <TrendingUp className="h-4 w-4 text-up" />
                           ) : (
-                            <TrendingDown className="h-5 w-5 text-down" />
+                            <TrendingDown className="h-4 w-4 text-down" />
                           )}
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
-                            <span className="font-medium">Round #{bet.roundId}</span>
+                            <span className="text-sm font-medium">Round #{bet.roundId}</span>
                             <ResultBadge direction={bet.direction} size="sm" />
                           </div>
-                          <div className="text-sm text-muted-foreground">
+                          <div className="text-xs text-muted-foreground">
                             {formatTimeAgo(bet.timestamp)}
                           </div>
                         </div>
                       </div>
 
                       <div className="text-right">
-                        <div className="font-mono font-medium">{formatNumber(bet.amount)} QVX</div>
+                        <div className="metric-value text-sm">{formatNumber(bet.amount)} QVX</div>
                         {bet.won !== null && (
                           <div className={cn(
-                            "text-sm font-mono",
-                            bet.won ? "text-up" : "text-down"
+                            'text-xs metric-value',
+                            bet.won ? 'text-up' : 'text-down'
                           )}>
-                            {bet.won ? `+${formatNumber((bet.payout || 0) - bet.amount)}` : `-${formatNumber(bet.amount)}`}
+                            {bet.won
+                              ? `+${formatNumber((bet.payout || 0) - bet.amount)}`
+                              : `-${formatNumber(bet.amount)}`}
                           </div>
                         )}
                         {bet.won === null && (
-                          <div className="text-sm text-muted-foreground">Pending</div>
+                          <div className="text-xs text-muted-foreground">Pending</div>
                         )}
                       </div>
                     </div>
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-8 text-muted-foreground">
-                  {UI_COPY.noTradesYet}
-                </div>
+                <EmptyState
+                  icon={<Activity className="h-5 w-5 text-muted-foreground" />}
+                  title={UI_COPY.noTradesYet}
+                  description="Your trade history will appear here."
+                />
               )}
             </GlassCard>
           </div>
 
-          {/* Right sidebar - Claimable */}
-          <div className="space-y-6">
-            <GlassCard className="p-6" glow={totalClaimable > 0 ? 'primary' : 'none'}>
-              <div className="flex items-center gap-2 mb-4">
-                <Gift className="h-5 w-5 text-primary" />
-                <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
-                  {TOKEN_LABELS.claimableLabel}
-                </h3>
-              </div>
+          {/* Right sidebar — Claimable */}
+          <div className="space-y-5">
+            <GlassCard className="p-5" glow={totalClaimable > 0 ? 'primary' : 'none'}>
+              <SectionHeader
+                title={TOKEN_LABELS.claimableLabel}
+                action={<Gift className="h-4 w-4 text-primary" />}
+              />
 
               {loadingClaimable ? (
                 <div className="flex justify-center py-8">
                   <Spinner size="sm" />
                 </div>
               ) : claimable && claimable.length > 0 ? (
-                <div className="space-y-3">
+                <div className="space-y-2.5">
                   {claimable.map((claim) => (
                     <div
                       key={claim.roundId}
                       className="flex items-center justify-between p-3 rounded-lg bg-muted/30"
                     >
                       <div>
-                        <div className="text-sm text-muted-foreground">Round #{claim.roundId}</div>
-                        <div className="font-mono font-bold text-primary">
+                        <div className="text-xs text-muted-foreground">Round #{claim.roundId}</div>
+                        <div className="metric-value text-sm text-primary">
                           +{formatNumber(claim.amount)} QVX
                         </div>
                       </div>
@@ -275,17 +268,24 @@ export default function WalletPage() {
                   ))}
 
                   <Button
-                    className="w-full mt-4"
+                    className="w-full mt-2"
+                    size="sm"
                     onClick={handleClaimAll}
                     disabled={isClaiming || isClaimingAll || !hasClaimable}
                   >
-                    {isClaimingAll ? 'Claiming...' : `Claim All (${formatNumber(totalClaimable)} QVX)`}
+                    {isClaimingAll ? (
+                      <><Spinner size="sm" className="mr-2" />Claiming...</>
+                    ) : (
+                      `Claim All · ${formatNumber(totalClaimable)} QVX`
+                    )}
                   </Button>
                 </div>
               ) : (
-                <div className="text-center py-8 text-muted-foreground">
-                  No rewards to claim
-                </div>
+                <EmptyState
+                  icon={<Gift className="h-5 w-5 text-muted-foreground" />}
+                  title="No rewards to claim"
+                  description="Win trades to earn claimable rewards."
+                />
               )}
             </GlassCard>
           </div>

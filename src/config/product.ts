@@ -120,12 +120,24 @@ export const UI_COPY = {
 
   // Page titles
   placeTradePage: 'Place Trade',
-  placeTradeSubtext: (maxMultiplier: string) =>
-    `Predict the price direction and earn up to ${maxMultiplier}x your position`,
+  // Pari-mutuel aligned — no fixed multiplier framing
+  placeTradeSubtext: 'Predict price direction. Winners share the round pool after fees. Payout is dynamic until round lock.',
 
   // Submit button
   placingTrade: 'Placing Trade...',
   placeTrade: 'Place Trade',
+
+  // Payout / pari-mutuel copy
+  payoutEstimateLabel: 'Est. Payout',
+  payoutEstimateNote: 'Dynamic estimate — updates until round lock',
+  payoutPoolShareLabel: 'Est. Pool Share',
+  maxLossLabel: 'Max Loss',
+  protocolFeeLabel: 'Protocol Fee',
+  balanceAfterLabel: 'Balance After',
+  roundLockWarning: 'Round is locking — no new positions accepted',
+  roundLockedWarning: 'Round locked — settlement in progress',
+  awaitingSettlement: 'Awaiting Settlement',
+  awaitingSettlementDetail: 'Your position is entered. Round settles in seconds.',
 
   // Modes
   demoModeActive: 'Demo Mode',

@@ -4,6 +4,8 @@ import { QUBIC_CONFIG } from '@/config/constants';
 import { BetDirection } from '@/types';
 import { useCurrentRound } from '@/hooks/useRound';
 import { calculatePayout } from '@/lib/qubic/contract';
+import { GlassCard } from '@/components/ui/glass-card';
+import { SectionHeader } from '@/components/ui/section-header';
 
 interface PayoutCalculatorProps {
   amount: number;
@@ -22,48 +24,54 @@ export function PayoutCalculator({ amount, direction, className }: PayoutCalcula
   const multiplier = amount > 0 ? estimatedPayout / amount : 0;
 
   return (
-    <div className={cn("space-y-3 p-4 rounded-lg bg-muted/50", className)}>
-      <div className="flex justify-between items-center">
-        <span className="text-sm text-muted-foreground">Your Position</span>
-        <span className="font-mono font-medium">{formatNumber(amount)} QVX</span>
-      </div>
+    <GlassCard className={cn('p-5', className)}>
+      <SectionHeader title="Payout Estimate" />
 
-      <div className="flex justify-between items-center">
-        <span className="text-sm text-muted-foreground">
-          Protocol Fee ({(QUBIC_CONFIG.houseFee * 100).toFixed(0)}%)
-        </span>
-        <span className="font-mono text-muted-foreground">-{formatNumber(protocolFee)} QVX</span>
-      </div>
-
-      <div className="border-t border-border pt-3">
+      <div className="space-y-2.5">
         <div className="flex justify-between items-center">
-          <span className="text-sm text-muted-foreground">Expected Payout</span>
-          <span className="font-mono font-bold text-lg text-primary">
-            {formatNumber(estimatedPayout)} QVX
+          <span className="text-xs text-muted-foreground">Your Position</span>
+          <span className="metric-value text-sm">{formatNumber(amount)} QVX</span>
+        </div>
+
+        <div className="flex justify-between items-center">
+          <span className="text-xs text-muted-foreground">
+            Protocol Fee ({(QUBIC_CONFIG.houseFee * 100).toFixed(0)}%)
+          </span>
+          <span className="metric-value text-sm text-muted-foreground">
+            -{formatNumber(protocolFee)} QVX
           </span>
         </div>
 
-        {amount > 0 && (
-          <>
-            <div className="flex justify-between items-center mt-2">
-              <span className="text-sm text-muted-foreground">Potential Profit</span>
-              <span className={cn(
-                "font-mono font-medium",
-                netProfit > 0 ? "text-up" : "text-muted-foreground"
-              )}>
-                +{formatNumber(netProfit)} QVX
-              </span>
-            </div>
+        <div className="border-t border-border/60 pt-2.5 space-y-2">
+          <div className="flex justify-between items-center">
+            <span className="text-xs text-muted-foreground">Expected Payout</span>
+            <span className="metric-value text-lg text-primary">
+              {formatNumber(estimatedPayout)} QVX
+            </span>
+          </div>
 
-            <div className="flex justify-between items-center mt-2">
-              <span className="text-sm text-muted-foreground">Multiplier</span>
-              <span className="font-mono text-primary font-medium">
-                {multiplier.toFixed(2)}x
-              </span>
-            </div>
-          </>
-        )}
+          {amount > 0 && (
+            <>
+              <div className="flex justify-between items-center">
+                <span className="text-xs text-muted-foreground">Potential Profit</span>
+                <span className={cn(
+                  'metric-value text-sm',
+                  netProfit > 0 ? 'text-up' : 'text-muted-foreground'
+                )}>
+                  +{formatNumber(netProfit)} QVX
+                </span>
+              </div>
+
+              <div className="flex justify-between items-center">
+                <span className="text-xs text-muted-foreground">Multiplier</span>
+                <span className="metric-value text-sm text-primary">
+                  {multiplier.toFixed(2)}x
+                </span>
+              </div>
+            </>
+          )}
+        </div>
       </div>
-    </div>
+    </GlassCard>
   );
 }

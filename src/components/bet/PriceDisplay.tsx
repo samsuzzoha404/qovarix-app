@@ -2,6 +2,7 @@ import { useCurrentPrice } from '@/hooks/useCurrentPrice';
 import { formatNumber, formatPercentage } from '@/lib/utils';
 import { cn } from '@/lib/utils';
 import { TrendingUp, TrendingDown } from 'lucide-react';
+import { SkeletonMetric } from '@/components/ui/skeleton-card';
 
 interface PriceDisplayProps {
   className?: string;
@@ -9,46 +10,42 @@ interface PriceDisplayProps {
   size?: 'sm' | 'md' | 'lg';
 }
 
+const sizeClasses = {
+  sm: 'text-xl',
+  md: 'text-3xl',
+  lg: 'text-4xl',
+};
+
 export function PriceDisplay({ className, showChange = true, size = 'md' }: PriceDisplayProps) {
   const { data: price, isLoading } = useCurrentPrice();
 
   if (isLoading || !price) {
-    return (
-      <div className={cn("animate-pulse", className)}>
-        <div className="h-8 w-32 bg-muted rounded" />
-      </div>
-    );
+    return <SkeletonMetric className={className} />;
   }
 
   const isPositive = price.change24h >= 0;
 
-  const sizeClasses = {
-    sm: 'text-xl',
-    md: 'text-3xl',
-    lg: 'text-5xl',
-  };
-
   return (
-    <div className={cn("flex flex-col items-center gap-1", className)}>
-      <div className="text-xs uppercase tracking-wider text-muted-foreground">
-        QVX/USD Price
-      </div>
-      <div className={cn("font-mono font-bold", sizeClasses[size])}>
+    <div className={cn('flex flex-col items-center gap-1.5', className)}>
+      <div className="section-label">QVX / USD</div>
+      <div className={cn('metric-value', sizeClasses[size])}>
         ${formatNumber(price.price)}
       </div>
       {showChange && (
         <div
           className={cn(
-            "flex items-center gap-1 text-sm font-medium",
-            isPositive ? "text-up" : "text-down"
+            'flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full',
+            isPositive
+              ? 'bg-up/10 text-up'
+              : 'bg-down/10 text-down'
           )}
         >
           {isPositive ? (
-            <TrendingUp className="h-4 w-4" />
+            <TrendingUp className="h-3 w-3" />
           ) : (
-            <TrendingDown className="h-4 w-4" />
+            <TrendingDown className="h-3 w-3" />
           )}
-          {formatPercentage(price.change24h)}
+          {formatPercentage(price.change24h)} 24h
         </div>
       )}
     </div>

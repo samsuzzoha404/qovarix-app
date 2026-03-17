@@ -34,30 +34,30 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/90 backdrop-blur-2xl shadow-sm">
-      <div className="container flex h-20 items-center justify-between max-w-7xl mx-auto">
+    <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/95 backdrop-blur-xl">
+      <div className="container flex h-14 items-center justify-between max-w-7xl mx-auto">
         {/* Logo */}
         <div className="flex items-center">
           <Link to="/" className="flex items-center hover:opacity-90 transition-opacity">
             <img
               src={theme === 'dark' ? '/Logo White.png' : '/Logo black.png'}
               alt="Qovarix"
-              className="h-12 w-auto object-contain"
+              className="h-8 w-auto object-contain"
             />
           </Link>
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-2">
+        <nav className="hidden md:flex items-center gap-1">
           {navItems.map((item) => (
             <Link
               key={item.path}
               to={item.path}
               className={cn(
-                "flex items-center gap-2.5 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300",
+                "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-150",
                 location.pathname === item.path
-                  ? "bg-primary/15 text-primary shadow-sm scale-105"
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted/80 hover:scale-105"
+                  ? "bg-primary/12 text-primary"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/60"
               )}
             >
               <item.icon className="h-4 w-4" />

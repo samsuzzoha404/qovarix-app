@@ -16,67 +16,63 @@ export function BetDirectionSelector({
   className,
 }: BetDirectionSelectorProps) {
   return (
-    <div className={cn("grid grid-cols-2 gap-4", className)}>
+    <div className={cn('grid grid-cols-2 gap-3', className)}>
       <button
         onClick={() => onSelect('UP')}
         disabled={disabled}
         className={cn(
-          "relative flex flex-col items-center justify-center gap-2 p-6 rounded-xl border-2 transition-all duration-300",
-          "hover:scale-[1.02] active:scale-[0.98]",
+          'relative flex flex-col items-center justify-center gap-2.5 p-5 rounded-xl border transition-all duration-200',
+          'hover:scale-[1.015] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
           selected === 'UP'
-            ? "border-up bg-up/10 glow-up"
-            : "border-border bg-card hover:border-up/50",
-          disabled && "opacity-50 cursor-not-allowed hover:scale-100"
+            ? 'border-up/50 bg-up/8 glow-up'
+            : 'border-border bg-card hover:border-up/30 hover:bg-up/4',
+          disabled && 'opacity-50 cursor-not-allowed hover:scale-100 hover:bg-card hover:border-border'
         )}
       >
         <div
           className={cn(
-            "p-4 rounded-full transition-colors",
-            selected === 'UP' ? "bg-up text-up-foreground" : "bg-muted"
+            'p-3 rounded-full transition-colors',
+            selected === 'UP' ? 'bg-up/15 text-up' : 'bg-muted text-muted-foreground'
           )}
         >
-          <ArrowUp className="h-8 w-8" />
+          <ArrowUp className="h-7 w-7" />
         </div>
         <span className={cn(
-          "text-xl font-bold",
-          selected === 'UP' ? "text-up" : "text-foreground"
+          'text-lg font-bold tracking-wide',
+          selected === 'UP' ? 'text-up' : 'text-foreground'
         )}>
           UP
         </span>
-        <span className="text-sm text-muted-foreground">
-          Price will increase
-        </span>
+        <span className="text-xs text-muted-foreground">Price will increase</span>
       </button>
 
       <button
         onClick={() => onSelect('DOWN')}
         disabled={disabled}
         className={cn(
-          "relative flex flex-col items-center justify-center gap-2 p-6 rounded-xl border-2 transition-all duration-300",
-          "hover:scale-[1.02] active:scale-[0.98]",
+          'relative flex flex-col items-center justify-center gap-2.5 p-5 rounded-xl border transition-all duration-200',
+          'hover:scale-[1.015] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
           selected === 'DOWN'
-            ? "border-down bg-down/10 glow-down"
-            : "border-border bg-card hover:border-down/50",
-          disabled && "opacity-50 cursor-not-allowed hover:scale-100"
+            ? 'border-down/50 bg-down/8 glow-down'
+            : 'border-border bg-card hover:border-down/30 hover:bg-down/4',
+          disabled && 'opacity-50 cursor-not-allowed hover:scale-100 hover:bg-card hover:border-border'
         )}
       >
         <div
           className={cn(
-            "p-4 rounded-full transition-colors",
-            selected === 'DOWN' ? "bg-down text-down-foreground" : "bg-muted"
+            'p-3 rounded-full transition-colors',
+            selected === 'DOWN' ? 'bg-down/15 text-down' : 'bg-muted text-muted-foreground'
           )}
         >
-          <ArrowDown className="h-8 w-8" />
+          <ArrowDown className="h-7 w-7" />
         </div>
         <span className={cn(
-          "text-xl font-bold",
-          selected === 'DOWN' ? "text-down" : "text-foreground"
+          'text-lg font-bold tracking-wide',
+          selected === 'DOWN' ? 'text-down' : 'text-foreground'
         )}>
           DOWN
         </span>
-        <span className="text-sm text-muted-foreground">
-          Price will decrease
-        </span>
+        <span className="text-xs text-muted-foreground">Price will decrease</span>
       </button>
     </div>
   );

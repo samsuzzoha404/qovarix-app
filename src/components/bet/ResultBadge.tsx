@@ -1,5 +1,5 @@
-import { cn, getResultBg } from '@/lib/utils';
-import { ArrowUp, ArrowDown, Minus } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { ArrowUp, ArrowDown, Clock } from 'lucide-react';
 import { BetDirection } from '@/types';
 
 interface ResultBadgeProps {
@@ -8,44 +8,49 @@ interface ResultBadgeProps {
   className?: string;
 }
 
+const sizeClasses = {
+  sm: 'text-xs px-2 py-0.5 gap-1',
+  md: 'text-sm px-2.5 py-1 gap-1.5',
+  lg: 'text-sm px-3 py-1.5 gap-1.5',
+};
+
+const iconSizes = {
+  sm: 'h-3 w-3',
+  md: 'h-3.5 w-3.5',
+  lg: 'h-4 w-4',
+};
+
 export function ResultBadge({ direction, size = 'md', className }: ResultBadgeProps) {
-  const sizeClasses = {
-    sm: 'text-xs px-2 py-0.5',
-    md: 'text-sm px-3 py-1',
-    lg: 'text-base px-4 py-2',
-  };
-
-  const iconSizes = {
-    sm: 'h-3 w-3',
-    md: 'h-4 w-4',
-    lg: 'h-5 w-5',
-  };
-
   if (!direction) {
     return (
       <span
         className={cn(
-          "inline-flex items-center gap-1 rounded-full font-medium bg-muted text-muted-foreground",
+          'inline-flex items-center rounded-full font-medium',
+          'bg-muted text-muted-foreground border border-border/50',
           sizeClasses[size],
           className
         )}
       >
-        <Minus className={iconSizes[size]} />
+        <Clock className={iconSizes[size]} />
         Pending
       </span>
     );
   }
 
+  const isUp = direction === 'UP';
+
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 rounded-full font-medium",
-        getResultBg(direction),
+        'inline-flex items-center rounded-full font-medium',
+        isUp
+          ? 'bg-up/10 text-up border border-up/20'
+          : 'bg-down/10 text-down border border-down/20',
         sizeClasses[size],
         className
       )}
     >
-      {direction === 'UP' ? (
+      {isUp ? (
         <ArrowUp className={iconSizes[size]} />
       ) : (
         <ArrowDown className={iconSizes[size]} />
