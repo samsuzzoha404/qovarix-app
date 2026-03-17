@@ -11,7 +11,6 @@ import { formatNumber, formatAddress, formatTimeAgo, cn } from '@/lib/utils';
 import {
   Wallet,
   Copy,
-  ExternalLink,
   TrendingUp,
   TrendingDown,
   Gift,
@@ -22,11 +21,12 @@ import { useToast } from '@/hooks/use-toast';
 import { UI_COPY, TOKEN_LABELS } from '@/config/product';
 
 export default function WalletPage() {
-  const { connected, address, balance, connect, disconnect, isConnecting } = useWallet();
+  const { connected, address, balance, disconnect } = useWallet();
   const { data: bets, isLoading: loadingBets } = useUserBets();
   const { data: claimable, isLoading: loadingClaimable } = useUserClaimable();
-  const { mutate: claimWinnings, isPending: isClaiming } = useClaimWinnings();
+  const { mutate: claimWinnings, mutateAsync: claimWinningsAsync, isPending: isClaiming } = useClaimWinnings();
   const [copied, setCopied] = useState(false);
+  const [isClaimingAll, setIsClaimingAll] = useState(false);
   const { toast } = useToast();
 
   const copyAddress = () => {
@@ -35,6 +35,20 @@ export default function WalletPage() {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
       toast({ title: 'Address copied!' });
+    }
+  };
+
+  const handleClaimAll = async () => {
+    if (!claimable || claimable.length === 0 || isClaimingAll) return;
+    setIsClaimingAll(true);
+    try {
+      for (const claim of claimable) {
+        await claimWinningsAsync(claim.roundId);
+      }
+    } catch {
+      // Individual claim errors are handled via onError in useClaimWinnings
+    } finally {
+      setIsClaimingAll(false);
     }
   };
 
@@ -85,11 +99,6 @@ export default function WalletPage() {
                     <span className="font-mono text-xl font-semibold">{formatAddress(address || '', 8)}</span>
                     <Button variant="ghost" size="icon" onClick={copyAddress}>
                       {copied ? <Check className="h-4 w-4 text-up" /> : <Copy className="h-4 w-4" />}
-                    </Button>
-                    <Button variant="ghost" size="icon" asChild>
-                      <a href="#" target="_blank" rel="noopener noreferrer">
-                        <ExternalLink className="h-4 w-4" />
-                      </a>
                     </Button>
                   </div>
                 </div>
@@ -248,9 +257,10 @@ export default function WalletPage() {
 
                   <Button
                     className="w-full mt-4"
-                    disabled={isClaiming}
+                    onClick={handleClaimAll}
+                    disabled={isClaiming || isClaimingAll}
                   >
-                    Claim All ({formatNumber(totalClaimable)} QVX)
+                    {isClaimingAll ? 'Claiming...' : `Claim All (${formatNumber(totalClaimable)} QVX)`}
                   </Button>
                 </div>
               ) : (

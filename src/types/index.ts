@@ -42,15 +42,6 @@ export interface PriceData {
   timestamp: number;
 }
 
-export interface UserStats {
-  totalBets: number;
-  totalWins: number;
-  totalLosses: number;
-  totalWagered: number;
-  totalWon: number;
-  winRate: number;
-}
-
 export interface ClaimableWinnings {
   roundId: number;
   amount: number;

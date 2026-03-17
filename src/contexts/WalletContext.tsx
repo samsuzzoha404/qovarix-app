@@ -4,7 +4,6 @@ import { WalletState } from '@/types';
 import { QUBIC_CONFIG } from '@/config/constants';
 
 const STORAGE_KEY = 'qubic_wallet_connected';
-const SEED_STORAGE_KEY = 'qubic_wallet_seed';
 const DEMO_WALLET_KEY = 'qubic_demo_wallet';
 const DEMO_BALANCE_KEY = 'qubic_demo_balance';
 
@@ -75,7 +74,7 @@ export function WalletProvider({ children }: WalletProviderProps) {
       setIsDemoMode(false); // Clear demo mode for real wallet
       localStorage.setItem(STORAGE_KEY, 'true');
       localStorage.removeItem(DEMO_WALLET_KEY); // Ensure demo flag is cleared
-      sessionStorage.setItem(SEED_STORAGE_KEY, seed);
+      // Note: seed is NOT persisted to any storage for security
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to connect wallet';
       setError(message);
@@ -113,7 +112,6 @@ export function WalletProvider({ children }: WalletProviderProps) {
       localStorage.setItem(STORAGE_KEY, 'true');
       localStorage.setItem(DEMO_WALLET_KEY, 'true');
       localStorage.setItem(DEMO_BALANCE_KEY, balance.toString());
-      sessionStorage.removeItem(SEED_STORAGE_KEY); // Clear real wallet seed
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to connect demo wallet';
       setError(message);
@@ -130,18 +128,16 @@ export function WalletProvider({ children }: WalletProviderProps) {
 
     const wasConnected = localStorage.getItem(STORAGE_KEY) === 'true';
     const isDemoWallet = localStorage.getItem(DEMO_WALLET_KEY) === 'true';
-    const storedSeed = sessionStorage.getItem(SEED_STORAGE_KEY);
-    
+
     if (wasConnected && isDemoWallet) {
       connectDemoWalletInternal().catch(() => {
         localStorage.removeItem(STORAGE_KEY);
         localStorage.removeItem(DEMO_WALLET_KEY);
       });
-    } else if (wasConnected && storedSeed) {
-      connectWalletInternal(storedSeed).catch(() => {
-        localStorage.removeItem(STORAGE_KEY);
-        sessionStorage.removeItem(SEED_STORAGE_KEY);
-      });
+    } else if (wasConnected && !isDemoWallet) {
+      // Real wallet sessions cannot be auto-reconnected (seed is not persisted).
+      // Clear stale connection flag so the user is prompted to reconnect.
+      localStorage.removeItem(STORAGE_KEY);
     }
   }, [connectWalletInternal, connectDemoWalletInternal]);
 
@@ -165,7 +161,6 @@ export function WalletProvider({ children }: WalletProviderProps) {
     setIsDemoMode(false);
     // Clear persisted state
     localStorage.removeItem(STORAGE_KEY);
-    sessionStorage.removeItem(SEED_STORAGE_KEY);
     localStorage.removeItem(DEMO_WALLET_KEY);
     setError(null);
   }, []);

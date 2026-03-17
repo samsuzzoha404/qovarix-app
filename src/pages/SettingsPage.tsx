@@ -2,6 +2,7 @@ import { MainLayout } from '@/components/layout/MainLayout';
 import { GlassCard } from '@/components/ui/glass-card';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
+import { Badge } from '@/components/ui/badge';
 import { ResetDemoButton } from '@/components/ResetDemoButton';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useWallet } from '@/hooks/useWallet';
@@ -42,7 +43,7 @@ export default function SettingsPage() {
                       "flex items-center justify-between p-4 rounded-xl border transition-colors",
                       isActive
                         ? "bg-primary/5 border-primary/30"
-                        : "bg-muted/30 border-border/50 opacity-60"
+                        : "bg-muted/30 border-border/50 opacity-60 cursor-default"
                     )}
                   >
                     <div className="flex items-center gap-3">
@@ -177,8 +178,11 @@ export default function SettingsPage() {
                   <p className="text-base text-muted-foreground mt-1">
                     Get notified when rounds end
                   </p>
+                  <Badge variant="outline" className="mt-1.5 text-xs text-muted-foreground border-border/50">
+                    Coming in live integration
+                  </Badge>
                 </div>
-                <Switch id="round-alerts" />
+                <Switch id="round-alerts" disabled />
               </div>
 
               <div className="flex items-center justify-between">
@@ -189,8 +193,11 @@ export default function SettingsPage() {
                   <p className="text-base text-muted-foreground mt-1">
                     Get notified when you win a round
                   </p>
+                  <Badge variant="outline" className="mt-1.5 text-xs text-muted-foreground border-border/50">
+                    Coming in live integration
+                  </Badge>
                 </div>
-                <Switch id="win-alerts" defaultChecked />
+                <Switch id="win-alerts" disabled />
               </div>
 
               <div className="flex items-center justify-between">
@@ -201,8 +208,11 @@ export default function SettingsPage() {
                   <p className="text-base text-muted-foreground mt-1">
                     Play sounds for trade actions
                   </p>
+                  <Badge variant="outline" className="mt-1.5 text-xs text-muted-foreground border-border/50">
+                    Coming in live integration
+                  </Badge>
                 </div>
-                <Switch id="sound" />
+                <Switch id="sound" disabled />
               </div>
             </div>
           </GlassCard>
@@ -225,8 +235,11 @@ export default function SettingsPage() {
                   <p className="text-base text-muted-foreground mt-1">
                     Require confirmation for trades over 500 QVX trading balance
                   </p>
+                  <Badge variant="outline" className="mt-1.5 text-xs text-muted-foreground border-border/50">
+                    Coming in live integration
+                  </Badge>
                 </div>
-                <Switch id="confirm-bets" defaultChecked />
+                <Switch id="confirm-bets" disabled />
               </div>
 
               <div className="flex items-center justify-between">
@@ -237,8 +250,11 @@ export default function SettingsPage() {
                   <p className="text-base text-muted-foreground mt-1">
                     Disconnect wallet after 30 minutes of inactivity
                   </p>
+                  <Badge variant="outline" className="mt-1.5 text-xs text-muted-foreground border-border/50">
+                    Coming in live integration
+                  </Badge>
                 </div>
-                <Switch id="auto-disconnect" />
+                <Switch id="auto-disconnect" disabled />
               </div>
             </div>
           </GlassCard>

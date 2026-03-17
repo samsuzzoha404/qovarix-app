@@ -211,3 +211,12 @@
 .animate-countdown {
   animation: countdown-pulse 1s ease-in-out infinite;
 }
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; r: 2; }
+  50% { opacity: 0.6; r: 3; }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 1.5s ease-in-out infinite;
+}
