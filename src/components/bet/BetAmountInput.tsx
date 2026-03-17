@@ -36,10 +36,10 @@ export function BetAmountInput({
     <div className={cn("space-y-3", className)}>
       <div className="flex items-center justify-between">
         <label className="text-sm font-medium text-muted-foreground">
-          Bet Amount
+          Trade Amount
         </label>
         <span className="text-sm text-muted-foreground">
-          Balance: <span className="text-foreground font-mono">{maxBalance.toFixed(2)} QVX</span>
+          Available: <span className="text-foreground font-mono">{maxBalance.toFixed(2)} QVX</span>
         </span>
       </div>
 

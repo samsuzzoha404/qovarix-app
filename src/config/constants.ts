@@ -11,9 +11,11 @@ export const QUBIC_CONFIG = {
   minBet: 1,
   maxBet: 10000,
   contractId: 1, // Qovarix contract ID
-  // Simulation mode enabled for testing UI/wallet (backend contract not deployed yet)
-  // Set to false when Qovarix smart contract is deployed on Qubic
+  // Simulation mode enabled for testing UI (backend contract not deployed yet)
+  // Set to false when the Qovarix smart contract is deployed on Base
   simulationMode: true,
+  // Display label for the network context (Base-native product identity)
+  networkLabel: 'Base Testnet',
 };
 
 export const REFETCH_INTERVALS = {

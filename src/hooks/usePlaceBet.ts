@@ -16,14 +16,14 @@ export function usePlaceBet() {
       queryClient.invalidateQueries({ queryKey: ['userBets'] });
       queryClient.invalidateQueries({ queryKey: ['currentRound'] });
       toast({
-        title: 'Bet Placed!',
-        description: `Your ${data.bet.direction} bet of ${data.bet.amount} QVX has been placed`,
+        title: 'Trade Placed',
+        description: `Your ${data.bet.direction} trade of ${data.bet.amount} QVX has been entered`,
       });
     },
     onError: (error) => {
       toast({
-        title: 'Bet Failed',
-        description: error instanceof Error ? error.message : 'Failed to place bet',
+        title: 'Trade Failed',
+        description: error instanceof Error ? error.message : 'Failed to place trade',
         variant: 'destructive',
       });
     },

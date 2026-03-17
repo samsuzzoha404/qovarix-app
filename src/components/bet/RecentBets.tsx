@@ -4,6 +4,7 @@ import { ResultBadge } from './ResultBadge';
 import { formatNumber, formatTimeAgo } from '@/lib/utils';
 import { cn } from '@/lib/utils';
 import { Spinner } from '@/components/ui/spinner';
+import { UI_COPY } from '@/config/product';
 
 interface RecentBetsProps {
   className?: string;
@@ -18,7 +19,7 @@ export function RecentBets({ className, limit = 5 }: RecentBetsProps) {
   return (
     <GlassCard className={className}>
       <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">
-        Recent Bets
+        {UI_COPY.recentTrades}
       </h3>
 
       {isLoading ? (
@@ -27,7 +28,7 @@ export function RecentBets({ className, limit = 5 }: RecentBetsProps) {
         </div>
       ) : recentBets.length === 0 ? (
         <div className="text-center py-8 text-muted-foreground">
-          No bets yet
+          {UI_COPY.noTradesYet}
         </div>
       ) : (
         <div className="space-y-3">

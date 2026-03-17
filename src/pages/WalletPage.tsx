@@ -8,17 +8,18 @@ import { useWallet } from '@/hooks/useWallet';
 import { useUserBets, useUserClaimable } from '@/hooks/useUserBets';
 import { useClaimWinnings } from '@/hooks/usePlaceBet';
 import { formatNumber, formatAddress, formatTimeAgo, cn } from '@/lib/utils';
-import { 
-  Wallet, 
-  Copy, 
-  ExternalLink, 
-  TrendingUp, 
+import {
+  Wallet,
+  Copy,
+  ExternalLink,
+  TrendingUp,
   TrendingDown,
   Gift,
   Check
 } from 'lucide-react';
 import { useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
+import { UI_COPY, TOKEN_LABELS } from '@/config/product';
 
 export default function WalletPage() {
   const { connected, address, balance, connect, disconnect, isConnecting } = useWallet();
@@ -40,7 +41,7 @@ export default function WalletPage() {
   const totalClaimable = claimable?.reduce((sum, c) => sum + c.amount, 0) || 0;
 
   const stats = bets ? {
-    totalBets: bets.length,
+    totalTrades: bets.length,
     wins: bets.filter(b => b.won === true).length,
     losses: bets.filter(b => b.won === false).length,
     pending: bets.filter(b => b.won === null).length,
@@ -58,7 +59,7 @@ export default function WalletPage() {
             </div>
             <h2 className="text-2xl font-bold mb-3">Connect Your Wallet</h2>
             <p className="text-muted-foreground mb-8 leading-relaxed">
-              View your balance, bets history, and claimable winnings
+              View your trading balance, trade history, and claimable rewards.
             </p>
             <WalletConnectButton size="lg" className="w-full py-6" />
           </GlassCard>
@@ -99,14 +100,18 @@ export default function WalletPage() {
 
               <div className="grid grid-cols-2 gap-6">
                 <div className="p-6 rounded-xl bg-muted/60 border border-border/50">
-                  <div className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-2">Balance</div>
+                  <div className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-1">
+                    {TOKEN_LABELS.tradingBalance}
+                  </div>
                   <div className="text-3xl font-bold font-mono">{formatNumber(balance)} QVX</div>
+                  <div className="text-xs text-muted-foreground mt-1">{TOKEN_LABELS.collateralUnitFull}</div>
                 </div>
                 <div className="p-4 rounded-lg bg-primary/10">
-                  <div className="text-sm text-muted-foreground mb-1">Claimable Winnings</div>
+                  <div className="text-sm text-muted-foreground mb-1">{TOKEN_LABELS.claimableLabel}</div>
                   <div className="text-3xl font-bold font-mono text-primary">
                     {formatNumber(totalClaimable)} QVX
                   </div>
+                  <div className="text-xs text-muted-foreground mt-1">{TOKEN_LABELS.rewardsLabel}</div>
                 </div>
               </div>
             </GlassCard>
@@ -119,8 +124,8 @@ export default function WalletPage() {
                 </h3>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div className="text-center p-3 rounded-lg bg-muted/30">
-                    <div className="text-2xl font-bold">{stats.totalBets}</div>
-                    <div className="text-xs text-muted-foreground">Total Bets</div>
+                    <div className="text-2xl font-bold">{stats.totalTrades}</div>
+                    <div className="text-xs text-muted-foreground">{UI_COPY.totalTrades}</div>
                   </div>
                   <div className="text-center p-3 rounded-lg bg-up/10">
                     <div className="text-2xl font-bold text-up">{stats.wins}</div>
@@ -132,7 +137,7 @@ export default function WalletPage() {
                   </div>
                   <div className="text-center p-3 rounded-lg bg-muted/30">
                     <div className="text-2xl font-bold">
-                      {stats.totalBets > 0 ? ((stats.wins / (stats.wins + stats.losses)) * 100 || 0).toFixed(0) : 0}%
+                      {stats.totalTrades > 0 ? ((stats.wins / (stats.wins + stats.losses)) * 100 || 0).toFixed(0) : 0}%
                     </div>
                     <div className="text-xs text-muted-foreground">Win Rate</div>
                   </div>
@@ -140,10 +145,10 @@ export default function WalletPage() {
               </GlassCard>
             )}
 
-            {/* Bet History */}
+            {/* Trade History */}
             <GlassCard className="p-6">
               <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">
-                Bet History
+                {UI_COPY.tradeHistory}
               </h3>
 
               {loadingBets ? (
@@ -198,7 +203,7 @@ export default function WalletPage() {
                 </div>
               ) : (
                 <div className="text-center py-8 text-muted-foreground">
-                  No bets yet
+                  {UI_COPY.noTradesYet}
                 </div>
               )}
             </GlassCard>
@@ -210,7 +215,7 @@ export default function WalletPage() {
               <div className="flex items-center gap-2 mb-4">
                 <Gift className="h-5 w-5 text-primary" />
                 <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
-                  Claimable Winnings
+                  {TOKEN_LABELS.claimableLabel}
                 </h3>
               </div>
 
@@ -250,7 +255,7 @@ export default function WalletPage() {
                 </div>
               ) : (
                 <div className="text-center py-8 text-muted-foreground">
-                  No winnings to claim
+                  No rewards to claim
                 </div>
               )}
             </GlassCard>

@@ -5,23 +5,23 @@ import { useTheme } from '@/contexts/ThemeContext';
 import { WalletConnectButton } from '@/components/WalletConnectButton';
 import { Button } from '@/components/ui/button';
 import { formatAddress, formatNumber } from '@/lib/utils';
-import { 
-  Wallet, 
-  Moon, 
-  Sun, 
-  Menu, 
+import {
+  Wallet,
+  Moon,
+  Sun,
+  Menu,
   X,
   LayoutDashboard,
   Target,
   History,
-  Settings
+  Settings,
 } from 'lucide-react';
 import { useState } from 'react';
 import { ROUTES } from '@/config/constants';
 
 const navItems = [
   { label: 'Dashboard', path: ROUTES.dashboard, icon: LayoutDashboard },
-  { label: 'Place Bet', path: ROUTES.bet, icon: Target },
+  { label: 'Trade', path: ROUTES.bet, icon: Target },
   { label: 'History', path: ROUTES.history, icon: History },
   { label: 'Wallet', path: ROUTES.wallet, icon: Wallet },
   { label: 'Settings', path: ROUTES.settings, icon: Settings },
@@ -37,13 +37,15 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/90 backdrop-blur-2xl shadow-sm">
       <div className="container flex h-20 items-center justify-between max-w-7xl mx-auto">
         {/* Logo */}
-        <Link to="/" className="flex items-center hover:opacity-90 transition-opacity">
-          <img
-            src={theme === 'dark' ? '/Logo White.png' : '/Logo black.png'}
-            alt="Qovarix"
-            className="h-12 w-auto object-contain"
-          />
-        </Link>
+        <div className="flex items-center">
+          <Link to="/" className="flex items-center hover:opacity-90 transition-opacity">
+            <img
+              src={theme === 'dark' ? '/Logo White.png' : '/Logo black.png'}
+              alt="Qovarix"
+              className="h-12 w-auto object-contain"
+            />
+          </Link>
+        </div>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-2">
@@ -84,7 +86,7 @@ export function Header() {
           {connected ? (
             <div className="flex items-center gap-3">
               <div className="hidden lg:block text-right px-4 py-2 rounded-lg bg-muted/50">
-                <div className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Balance</div>
+                <div className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Trading Balance</div>
                 <div className="text-base font-mono font-semibold text-foreground">{formatNumber(balance)} <span className="text-primary">QVX</span></div>
               </div>
               <Button

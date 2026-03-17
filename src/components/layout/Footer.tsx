@@ -1,5 +1,7 @@
 import { ExternalLink } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext';
+import { PRODUCT } from '@/config/product';
+import { QUBIC_CONFIG } from '@/config/constants';
 
 export function Footer() {
   const { theme } = useTheme();
@@ -23,7 +25,7 @@ export function Footer() {
               Documentation
             </a>
             <a href="#" className="hover:text-primary transition-all duration-300 hover:scale-105 flex items-center gap-1.5">
-              Surge
+              Base
               <ExternalLink className="h-4 w-4" />
             </a>
             <a href="#" className="hover:text-primary transition-all duration-300 hover:scale-105">
@@ -34,12 +36,12 @@ export function Footer() {
           {/* Network badge */}
           <div className="flex items-center gap-2.5 px-4 py-2 rounded-lg bg-muted/60 border border-border/50">
             <div className="h-2.5 w-2.5 rounded-full bg-up animate-pulse shadow-lg shadow-up/50" />
-            <span className="text-sm font-medium text-foreground">Surge Testnet</span>
+            <span className="text-sm font-medium text-foreground">{QUBIC_CONFIG.networkLabel}</span>
           </div>
         </div>
 
         <div className="mt-8 pt-8 border-t border-border/60 text-center text-sm text-muted-foreground">
-          © {new Date().getFullYear()} Qovarix. Decentralized trading platform on Surge.
+          © {new Date().getFullYear()} {PRODUCT.name}. {PRODUCT.copyrightSuffix}
         </div>
       </div>
     </footer>

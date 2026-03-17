@@ -16,6 +16,7 @@ import { usePlaceBet } from '@/hooks/usePlaceBet';
 import { useCurrentRound } from '@/hooks/useRound';
 import { BetDirection } from '@/types';
 import { QUBIC_CONFIG } from '@/config/constants';
+import { UI_COPY, PRODUCT } from '@/config/product';
 import { Wallet, AlertTriangle, CheckCircle2 } from 'lucide-react';
 
 export default function PlaceBet() {
@@ -58,9 +59,9 @@ export default function PlaceBet() {
     <MainLayout>
       <div className="container py-10 max-w-5xl mx-auto">
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">Place Your Bet</h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">{UI_COPY.placeTradePage}</h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Predict the price direction and win up to <span className="text-up font-semibold">1.96x</span> your stake
+            {UI_COPY.placeTradeSubtext('1.96')}
           </p>
         </div>
 
@@ -71,7 +72,7 @@ export default function PlaceBet() {
             </div>
             <h2 className="text-2xl font-bold mb-3">Connect Your Wallet</h2>
             <p className="text-muted-foreground mb-8 leading-relaxed">
-              Connect your wallet to start placing bets on the platform
+              Connect your wallet to place trades on {PRODUCT.name}
             </p>
             <WalletConnectButton size="lg" className="w-full py-6" />
           </GlassCard>
@@ -80,15 +81,15 @@ export default function PlaceBet() {
             <div className="w-20 h-20 rounded-full bg-up/10 flex items-center justify-center mx-auto mb-6">
               <CheckCircle2 className="h-10 w-10 text-up" />
             </div>
-            <h2 className="text-2xl font-bold mb-3">Bet Placed Successfully!</h2>
+            <h2 className="text-2xl font-bold mb-3">{UI_COPY.tradePlacedTitle}</h2>
             <p className="text-muted-foreground mb-6 leading-relaxed">
-              Your bet has been submitted to the blockchain
+              {UI_COPY.tradePlacedSubtext}
             </p>
             <CountdownTimer size="md" />
           </GlassCard>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Main betting form */}
+            {/* Main trading form */}
             <div className="lg:col-span-2 space-y-8">
               {/* Price & Timer */}
               <GlassCard className="p-8 shadow-xl">
@@ -135,11 +136,11 @@ export default function PlaceBet() {
                 {isPlacingBet ? (
                   <>
                     <Spinner size="sm" className="mr-2" />
-                    Placing Bet...
+                    {UI_COPY.placingTrade}
                   </>
                 ) : (
                   <>
-                    Place Bet
+                    {UI_COPY.placeTrade}
                     {direction && amount > 0 && ` • ${direction} • ${amount} QVX`}
                   </>
                 )}
@@ -149,7 +150,7 @@ export default function PlaceBet() {
               {amount > balance && (
                 <div className="flex items-center gap-2 p-3 rounded-lg bg-down/10 text-down text-sm">
                   <AlertTriangle className="h-4 w-4" />
-                  Insufficient balance
+                  {UI_COPY.insufficientBalance}
                 </div>
               )}
             </div>

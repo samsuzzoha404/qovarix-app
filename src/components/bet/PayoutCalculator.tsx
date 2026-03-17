@@ -14,7 +14,7 @@ interface PayoutCalculatorProps {
 export function PayoutCalculator({ amount, direction, className }: PayoutCalculatorProps) {
   const { data: round } = useCurrentRound();
 
-  const houseFee = amount * QUBIC_CONFIG.houseFee;
+  const protocolFee = amount * QUBIC_CONFIG.houseFee;
   const estimatedPayout = amount && direction && round
     ? calculatePayout(amount, direction, round)
     : 0;
@@ -24,15 +24,15 @@ export function PayoutCalculator({ amount, direction, className }: PayoutCalcula
   return (
     <div className={cn("space-y-3 p-4 rounded-lg bg-muted/50", className)}>
       <div className="flex justify-between items-center">
-        <span className="text-sm text-muted-foreground">Your Bet</span>
+        <span className="text-sm text-muted-foreground">Your Position</span>
         <span className="font-mono font-medium">{formatNumber(amount)} QVX</span>
       </div>
 
       <div className="flex justify-between items-center">
         <span className="text-sm text-muted-foreground">
-          House Fee ({(QUBIC_CONFIG.houseFee * 100).toFixed(0)}%)
+          Protocol Fee ({(QUBIC_CONFIG.houseFee * 100).toFixed(0)}%)
         </span>
-        <span className="font-mono text-muted-foreground">-{formatNumber(houseFee)} QVX</span>
+        <span className="font-mono text-muted-foreground">-{formatNumber(protocolFee)} QVX</span>
       </div>
 
       <div className="border-t border-border pt-3">

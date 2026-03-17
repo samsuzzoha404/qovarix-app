@@ -12,8 +12,9 @@ import { Button } from '@/components/ui/button';
 import { useWallet } from '@/hooks/useWallet';
 import { useRoundsHistory } from '@/hooks/useRoundsHistory';
 import { formatNumber } from '@/lib/utils';
-import { ArrowUp, ArrowDown, ArrowRight, Zap } from 'lucide-react';
+import { ArrowUp, ArrowDown, ArrowRight, TrendingUp } from 'lucide-react';
 import { ROUTES } from '@/config/constants';
+import { PRODUCT } from '@/config/product';
 
 export default function Dashboard() {
   const { connected, connect, isConnecting } = useWallet();
@@ -25,10 +26,10 @@ export default function Dashboard() {
         {/* Hero Section */}
         <div className="text-center mb-16">
           <h1 className="text-5xl md:text-6xl font-bold mb-6 tracking-tight">
-            <span className="text-gradient">High-Frequency</span> Trading Platform
+            <span className="text-gradient">{PRODUCT.heroHeadline}</span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-10 leading-relaxed">
-            Predict price movements on the Surge blockchain with precision. Fast rounds, instant settlements, transparent outcomes.
+            {PRODUCT.heroSubtext}
           </p>
 
           {!connected && (
@@ -63,7 +64,7 @@ export default function Dashboard() {
               </div>
             </GlassCard>
 
-            {/* Quick Bet Buttons */}
+            {/* Quick Trade Buttons */}
             <div className="grid grid-cols-2 gap-4">
               <Link to={`${ROUTES.bet}?direction=UP`} className="block h-full">
                 <GlassCard hover glow="up" className="p-8 text-center h-full transition-all duration-300 hover:scale-[1.02]">
@@ -73,8 +74,8 @@ export default function Dashboard() {
                   <h3 className="text-2xl font-bold text-up mb-2">UP</h3>
                   <p className="text-sm text-muted-foreground">Price will increase</p>
                   <Button variant="outline" className="mt-4 border-up text-up hover:bg-up/10">
-                    <Zap className="h-4 w-4 mr-2" />
-                    Bet UP
+                    <TrendingUp className="h-4 w-4 mr-2" />
+                    Trade UP
                   </Button>
                 </GlassCard>
               </Link>
@@ -87,8 +88,8 @@ export default function Dashboard() {
                   <h3 className="text-2xl font-bold text-down mb-2">DOWN</h3>
                   <p className="text-sm text-muted-foreground">Price will decrease</p>
                   <Button variant="outline" className="mt-4 border-down text-down hover:bg-down/10">
-                    <Zap className="h-4 w-4 mr-2" />
-                    Bet DOWN
+                    <ArrowDown className="h-4 w-4 mr-2" />
+                    Trade DOWN
                   </Button>
                 </GlassCard>
               </Link>
@@ -131,7 +132,7 @@ export default function Dashboard() {
                         <td className="py-3 text-center">
                           <ResultBadge direction={round.result} size="sm" />
                         </td>
-                        <td className="py-3 text-right font-mono">{formatNumber(round.totalPool)}</td>
+                        <td className="py-3 text-right font-mono">{formatNumber(round.totalPool)} QVX</td>
                       </tr>
                     ))}
                   </tbody>
@@ -140,7 +141,7 @@ export default function Dashboard() {
             </GlassCard>
           </div>
 
-          {/* Right Column - Info & Bets */}
+          {/* Right Column - Info & Trades */}
           <div className="space-y-6">
             <RoundInfo />
             <RecentBets limit={5} />
